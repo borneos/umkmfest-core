@@ -20,3 +20,18 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
+    Route::middleware('auth')->group(function () {
+        //Dashboard
+        Route::get('/', function () {
+            return view('home');
+        });
+        //Banners
+        Route::get('/admin/banners', 'BannersController@index')->name('banners');
+        Route::post('/admin/banners/store', 'BannersController@store')->name('banners.store');
+        Route::get('/admin/banners/edit/{id}', 'BannersController@edit')->name('banners.edit');
+        Route::post('/admin/banners/update', 'BannersController@update')->name('banners.update');
+        Route::delete('/admin/banners/delete/{id}', 'BannersController@delete')->name('banners.delete');
+    });
+});
