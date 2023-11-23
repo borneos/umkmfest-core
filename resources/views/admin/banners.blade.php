@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Banner')
+@section('title', 'Master Banner')
 @section('content')
   @php
     if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
@@ -99,7 +99,7 @@
         <label class="label">
           <span class="label-text text-base-content undefined">Name</span>
         </label>
-        <input name="name" type="text" placeholder="Your banner name" class="input input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" />
+        <input name="name" type="text" placeholder="Your banner name" class="input input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" required />
         @if ($errors->has('name'))
           <label class="label">
             <span class="label-text-alt text-error">{{ $errors->first('name') }}</span>
@@ -111,7 +111,7 @@
           <span class="label-text text-base-content undefined">Image</span>
         </label>
         <img id="bannerPreview" class="rounded-md mx-auto" hidden>
-        <input name="image" id="image" type="file" accept="image/*" onchange="previewImageOnAdd()" class="file-input file-input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" />
+        <input name="image" id="image" type="file" accept="image/*" onchange="previewImageOnAdd()" class="file-input file-input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" required />
         @if ($errors->has('image'))
           <label class="label">
             <span class="label-text-alt text-error">{{ $errors->first('image') }}</span>
@@ -258,7 +258,7 @@
           const url = window.location.href;
           $.ajax({
             type: "DELETE",
-            url: "/admin/banners/delete/" + id,
+            url: "/admin/events/delete/" + id,
             data: {
               _token: _token,
               id: id

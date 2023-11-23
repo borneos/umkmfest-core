@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Banner;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
-class BannersController extends Controller
+class BannerController extends Controller
 {
     use CloudinaryImage;
 
