@@ -4,46 +4,48 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\CloudinaryImage;
+use App\Models\Merchant;
 use Illuminate\Http\Request;
-use App\Models\Banner;
+use Illuminate\Support\Str;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
-class BannersController extends Controller
+class MerchantController extends Controller
 {
     use CloudinaryImage;
 
     public function index(Request $request)
     {
-        $bannerQuery = Banner::query();
+        $merchantQuery = Merchant::query();
         $sortColumn = $request->query('sortColumn');
         $sortDirection = $request->query('sortDirection');
         $searchParam = $request->query('q');
 
         if ($sortColumn && $sortDirection) {
-            $bannerQuery->orderBy($sortColumn, $sortDirection ?: 'asc');
+            $merchantQuery->orderBy($sortColumn, $sortDirection ?: 'asc');
         }
 
         if ($searchParam) {
-            $bannerQuery = $bannerQuery->where(function ($query) use ($searchParam) {
+            $merchantQuery = $merchantQuery->where(function ($query) use ($searchParam) {
                 $query
-                    ->orWhere('name', 'like', "%$searchParam%")
-                    ->orWhere('link', 'like', "%$searchParam%");
+                    ->orWhere('name', 'like', "%$searchParam%");
             });
         }
 
-        $banners = $bannerQuery->paginate(5);
-        return view('admin.banners', compact('banners', 'sortColumn', 'sortDirection', 'searchParam'));
+        $merchants = $merchantQuery->paginate(5);
+        return view('admin.merchants', compact('merchants', 'sortColumn', 'sortDirection', 'searchParam'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
+            'description' => 'required',
+            'status' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:8192'
         ]);
 
         if ($request->file('image')) {
-            $image = $this->UploadImageCloudinary(['image' => $request->file('image'), 'folder' => 'pktbeedufest/banners']);
+            $image = $this->UploadImageCloudinary(['image' => $request->file('image'), 'folder' => 'pktbeedufest/merchants']);
             $image_url = $image['url'];
             $additional_image = $image['additional_image'];
         } else {
@@ -51,23 +53,24 @@ class BannersController extends Controller
             $additional_image = '';
         };
 
-        Banner::create([
-            'name'  => $request->name,
+        Merchant::create([
+            'name' => $request->name,
+            'slug'  => Str::slug($request->name) . '-' . Str::random(5),
+            'description' => $request->description,
             'image' => $image_url,
-            'image_additional'  => $additional_image,
-            'link'  => $request->link ?? '',
+            'image_additional' => $additional_image,
             'status'    => $request->status == "on" ? 1 : 0,
         ]);
 
-        return redirect()->back()->with('success', 'Banner berhasil disimpan!');
+        return redirect()->back()->with('success', 'Merchant berhasil disimpan!');
     }
 
     public function edit($id)
     {
-        $banner = Banner::find($id);
+        $merchant = Merchant::find($id);
         return response()->json([
             'status' => 200,
-            'banner' => $banner
+            'merchant' => $merchant
         ]);
     }
 
@@ -75,39 +78,41 @@ class BannersController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'description' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,svg|max:3000'
         ]);
 
-        $banner = Banner::findOrFail($request->banner_id);
+        $merchant = Merchant::findOrFail($request->merchant_id);
 
         if ($request->file('image')) {
             $image = $this->UpdateImageCloudinary([
                 'image'      => $request->file('image'),
-                'folder'     => 'pktbeedufest/banners',
-                'collection' => $banner
+                'folder'     => 'pktbeedufest/merchants',
+                'collection' => $merchant
             ]);
             $image_url = $image['url'];
             $additional_image = $image['additional_image'];
         }
-        $banner->update([
+
+        $merchant->update([
             'name' => $request->name,
-            'image' => $image_url ?? $banner->image,
-            'link' => $request->link,
-            'status'    => $request->status == "on" ? 1 : 0,
-            'image_additional' => $additional_image ?? $banner->additional_image
+            'description' => $request->description,
+            'image' => $image_url ?? $merchant->image,
+            'image_additional' => $additional_image ?? $merchant->image_additional,
+            'status'    => $request->status == "on" ? 1 : 0
         ]);
 
-        return redirect()->back()->with('success', 'Banner berhasil diubah!');
+        return redirect()->back()->with('success', 'Merchant berhasil diubah!');
     }
 
     public function delete(Request $request)
     {
-        $banner = Banner::findOrFail($request->id);
-        if ($banner->image && $banner->image_additional) {
-            $key = json_decode($banner->image_additional);
+        $merchant = Merchant::findOrFail($request->id);
+        if ($merchant->image && $merchant->image_additional) {
+            $key = json_decode($merchant->image_additional);
             Cloudinary::destroy($key->public_id);
         }
-        $banner->delete();
+        $merchant->delete();
         return response()->json(['status' => 200]);
     }
 }

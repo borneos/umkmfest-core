@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Master Banner')
+@section('title', 'Master Merchant')
 @section('content')
   @php
     if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
@@ -15,7 +15,7 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="flex justify-between items-center pb-6">
-          <form action="{{ route('admin.banners', request()->query()) }}">
+          <form action="{{ route('admin.merchants', request()->query()) }}">
             <div class="flex my-2">
               <input type="hidden" name="sortColumn" value="{{ $sortColumn }}" />
               <input type="hidden" name="sortDirection" value="{{ $sortDirection }}" />
@@ -25,7 +25,7 @@
               </button>
             </div>
           </form>
-          <button class="btn btn-md btn-primary" onclick="modal_banner.showModal()">Add</button>
+          <button class="btn btn-md btn-primary" onclick="modal_merchant.showModal()">Add</button>
         </div>
         <div class="card bg-white rounded-lg">
           <div class="card-body p-0">
@@ -34,46 +34,46 @@
                 <thead>
                   <tr>
                     <th width="3%">
-                      <x-column-header dataRoute="admin.banners" column-name="id" :sort-column="$sortColumn" :sortDirection="$sortDirection">#</x-column-header>
+                      <x-column-header dataRoute="admin.merchants" column-name="id" :sort-column="$sortColumn" :sortDirection="$sortDirection">#</x-column-header>
                     </th>
                     <th>
-                      <x-column-header dataRoute="admin.banners" column-name="name" :sort-column="$sortColumn" :sortDirection="$sortDirection">Name</x-column-header>
+                      <x-column-header dataRoute="admin.merchants" column-name="name" :sort-column="$sortColumn" :sortDirection="$sortDirection">Name</x-column-header>
                     </th>
                     <th>
-                      <x-column-header dataRoute="admin.banners" column-name="link" :sort-column="$sortColumn" :sortDirection="$sortDirection">Link</x-column-header>
+                      Description
                     </th>
                     <th width="100">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach ($banners as $banner)
+                  @foreach ($merchants as $merchant)
                     <tr>
-                      <td>{{ $banner->id }}</td>
+                      <td>{{ $merchant->id }}</td>
                       <td>
                         <div class="flex items-center space-x-3">
                           <div class="avatar">
                             <div class="mask mask-squircle w-9 h-9">
-                              @if ($banner->image != '')
-                                <img src="{{ $banner->image }}" alt="{{ $banner->name }}">
+                              @if ($merchant->image != '')
+                                <img src="{{ $merchant->image }}" alt="{{ $merchant->name }}">
                               @else
                                 <img src="https://placehold.co/100x100" alt="blank" />
                               @endif
                             </div>
                           </div>
                           <div>
-                            <div class="font-bold">{{ $banner->name }}</div>
+                            <div class="font-bold">{{ $merchant->name }}</div>
                           </div>
                         </div>
                       </td>
                       <td>
-                        {{ $banner->link }}
+                        {{ Str::limit($merchant->description, 70, '...') }}
                       </td>
                       <td>
                         <div class="flex items-center justify-end gap-2">
-                          <button onClick="handleEdit(`{{ $banner->id }}`)" class="btn btn-sm btn-square btn-ghost">
+                          <button onClick="handleEdit(`{{ $merchant->id }}`)" class="btn btn-sm btn-square btn-ghost">
                             <x-bi-pencil-square class="w-4 h-4" />
                           </button>
-                          <button onClick="handleDelete(`{{ $banner->id }}`)" class="btn btn-sm btn-square btn-ghost">
+                          <button onClick="handleDelete(`{{ $merchant->id }}`)" class="btn btn-sm btn-square btn-ghost">
                             <x-bi-trash class="w-4 h-4" />
                           </button>
                         </div>
@@ -85,21 +85,21 @@
             </div>
           </div>
         </div>
-        {{ $banners->appends(['sortDirection' => request()->sortDirection, 'sortColumn' => request()->sortColumn, 'q' => request()->q])->onEachSide(5)->links() }}
+        {{ $merchants->appends(['sortDirection' => request()->sortDirection, 'sortColumn' => request()->sortColumn, 'q' => request()->q])->onEachSide(5)->links() }}
       </div>
     </div>
   </section>
 
-  <dialog id="modal_banner" class="modal">
-    <form class="modal-box" action="{{ route('admin.banners.store') }}" onsubmit="disableButton()" method="POST" enctype="multipart/form-data">
+  <dialog id="modal_merchant" class="modal">
+    <form class="modal-box" action="{{ route('admin.merchants.store') }}" onsubmit="disableButton()" method="POST" enctype="multipart/form-data">
       @csrf
       <a href="{{ $url }}" class="btn btn-sm btn-circle absolute right-2 top-2">✕</a>
-      <h3 class="font-semibold text-2xl pb-6 text-center">Add New Banner</h3>
+      <h3 class="font-semibold text-2xl pb-6 text-center">Add New Merchant</h3>
       <div class="form-control w-full mt-2">
         <label class="label">
           <span class="label-text text-base-content undefined">Name</span>
         </label>
-        <input name="name" type="text" placeholder="Your banner name" class="input input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" required />
+        <input name="name" type="text" placeholder="Your merchant name" class="input input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" required />
         @if ($errors->has('name'))
           <label class="label">
             <span class="label-text-alt text-error">{{ $errors->first('name') }}</span>
@@ -108,24 +108,24 @@
       </div>
       <div class="form-control w-full mt-2">
         <label class="label">
-          <span class="label-text text-base-content undefined">Image</span>
+          <span class="label-text text-base-content undefined">Description</span>
         </label>
-        <img id="bannerPreview" class="rounded-md mx-auto" hidden>
-        <input name="image" id="image" type="file" accept="image/*" onchange="previewImageOnAdd()" class="file-input file-input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" required />
-        @if ($errors->has('image'))
+        <textarea name="description" rows="3" class="textarea textarea-bordered w-full {{ $errors->has('description') ? ' input-error' : '' }}" required></textarea>
+        @if ($errors->has('description'))
           <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('image') }}</span>
+            <span class="label-text-alt text-error">{{ $errors->first('description') }}</span>
           </label>
         @endif
       </div>
       <div class="form-control w-full mt-2">
         <label class="label">
-          <span class="label-text text-base-content undefined">Link</span>
+          <span class="label-text text-base-content undefined">Image</span>
         </label>
-        <input name="link" type="text" placeholder="Your banner link" class="input input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" />
-        @if ($errors->has('link'))
+        <img id="merchantPreview" class="rounded-md mx-auto" hidden>
+        <input name="image" id="image" type="file" accept="image/*" onchange="previewImageOnAdd()" class="file-input file-input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" required />
+        @if ($errors->has('image'))
           <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('link') }}</span>
+            <span class="label-text-alt text-error">{{ $errors->first('image') }}</span>
           </label>
         @endif
       </div>
@@ -140,21 +140,21 @@
           </label>
         @endif
       </div>
-      <x-form-action type="save" route="/admin/banners" />
+      <x-form-action type="save" route="/admin/merchants" />
     </form>
   </dialog>
 
-  <dialog id="modal_banner_edit" class="modal">
-    <form class="modal-box" action="{{ route('admin.banners.update') }}" onsubmit="disableButton()" method="POST" enctype="multipart/form-data">
+  <dialog id="modal_merchant_edit" class="modal">
+    <form class="modal-box" action="{{ route('admin.merchants.update') }}" onsubmit="disableButton()" method="POST" enctype="multipart/form-data">
       @csrf
       <a href="{{ $url }}" class="btn btn-sm btn-circle absolute right-2 top-2">✕</a>
-      <h3 class="font-semibold text-2xl pb-6 text-center">Edit Banner</h3>
+      <h3 class="font-semibold text-2xl pb-6 text-center">Edit Merchant</h3>
       <div class="form-control w-full mt-2">
         <label class="label">
           <span class="label-text text-base-content undefined">Name</span>
         </label>
-        <input id="name" name="name" type="text" placeholder="Your banner name" class="input input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" />
-        <input type="hidden" name="banner_id" id="banner_id" />
+        <input id="name" name="name" type="text" placeholder="Your merchant name" class="input input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" />
+        <input type="hidden" name="merchant_id" id="merchant_id" />
         @if ($errors->has('name'))
           <label class="label">
             <span class="label-text-alt text-error">{{ $errors->first('name') }}</span>
@@ -163,24 +163,24 @@
       </div>
       <div class="form-control w-full mt-2">
         <label class="label">
-          <span class="label-text text-base-content undefined">Image</span>
+          <span class="label-text text-base-content undefined">Description</span>
         </label>
-        <img id="bannerPreviewEdit" class="rounded-md mx-auto">
-        <input name="image" id="image" type="file" accept="image/*" onchange="previewImageOnEdit()" class="file-input file-input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" />
-        @if ($errors->has('image'))
+        <textarea name="description" id="description" rows="3" class="textarea textarea-bordered w-full {{ $errors->has('description') ? ' input-error' : '' }}" required></textarea>
+        @if ($errors->has('description'))
           <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('image') }}</span>
+            <span class="label-text-alt text-error">{{ $errors->first('description') }}</span>
           </label>
         @endif
       </div>
       <div class="form-control w-full mt-2">
         <label class="label">
-          <span class="label-text text-base-content undefined">Link</span>
+          <span class="label-text text-base-content undefined">Image</span>
         </label>
-        <input id="link" name="link" type="text" placeholder="Your link banner" class="input input-bordered w-full" />
-        @if ($errors->has('link'))
+        <img id="merchantPreviewEdit" class="rounded-md mx-auto">
+        <input name="image" id="image" type="file" accept="image/*" onchange="previewImageOnEdit()" class="file-input file-input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" />
+        @if ($errors->has('image'))
           <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('link') }}</span>
+            <span class="label-text-alt text-error">{{ $errors->first('image') }}</span>
           </label>
         @endif
       </div>
@@ -195,11 +195,12 @@
           </label>
         @endif
       </div>
-      <x-form-action type="update" route="/admin/banners" />
+      <x-form-action type="update" route="/admin/merchants" />
     </form>
   </dialog>
 
 @endsection
+
 @section('js')
   <script>
     function previewImageOnAdd() {
@@ -207,11 +208,11 @@
       if (file.size > 3080000) {
         toastr.error("Your files to large, please resize!");
         setTimeout(() => {
-          window.location.replace("/admin/banners");
+          window.location.replace("/admin/merchants");
         }, 1500)
       } else {
-        $('#bannerPreview').show();
-        bannerPreview.src = URL.createObjectURL(event.target.files[0])
+        $('#merchantPreview').show();
+        merchantPreview.src = URL.createObjectURL(event.target.files[0])
       }
     }
 
@@ -220,25 +221,25 @@
       if (file.size > 3080000) {
         toastr.error("Your files to large, please resize!");
         setTimeout(() => {
-          window.location.replace("/admin/banners");
+          window.location.replace("/admin/merchants");
         }, 1500)
       } else {
-        $('#bannerPreviewEdit').show();
-        bannerPreviewEdit.src = URL.createObjectURL(event.target.files[0])
+        $('#merchantPreviewEdit').show();
+        merchantPreviewEdit.src = URL.createObjectURL(event.target.files[0])
       }
     }
 
     function handleEdit(id) {
-      modal_banner_edit.showModal();
+      modal_merchant_edit.showModal();
       $.ajax({
         type: "GET",
-        url: "/admin/banners/edit/" + id,
+        url: "/admin/merchants/edit/" + id,
         success: function(response) {
-          $("#banner_id").val(response.banner.id);
-          $("#name").val(response.banner.name);
-          $("#link").val(response.banner.link);
-          response.banner.status == 1 ? $("#status").prop("checked", true) : "";
-          image ? $('#bannerPreviewEdit').attr('src', response.banner.image || '') : null;
+          $("#merchant_id").val(response.merchant.id);
+          $("#name").val(response.merchant.name);
+          $("#description").val(response.merchant.description);
+          response.merchant.status == 1 ? $("#status").prop("checked", true) : "";
+          image ? $('#merchantPreviewEdit').attr('src', response.merchant.image || '') : null;
         }
       })
     }
@@ -258,7 +259,7 @@
           const url = window.location.href;
           $.ajax({
             type: "DELETE",
-            url: "/admin/events/delete/" + id,
+            url: "/admin/merchants/delete/" + id,
             data: {
               _token: _token,
               id: id

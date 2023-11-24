@@ -28,10 +28,22 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             return view('home');
         });
         //Banners
-        Route::get('/admin/banners', 'BannersController@index')->name('banners');
-        Route::post('/admin/banners/store', 'BannersController@store')->name('banners.store');
-        Route::get('/admin/banners/edit/{id}', 'BannersController@edit')->name('banners.edit');
-        Route::post('/admin/banners/update', 'BannersController@update')->name('banners.update');
-        Route::delete('/admin/banners/delete/{id}', 'BannersController@delete')->name('banners.delete');
+        Route::get('/admin/banners', 'BannerController@index')->name('banners');
+        Route::post('/admin/banners/store', 'BannerController@store')->name('banners.store');
+        Route::get('/admin/banners/edit/{id}', 'BannerController@edit')->name('banners.edit');
+        Route::post('/admin/banners/update', 'BannerController@update')->name('banners.update');
+        Route::delete('/admin/banners/delete/{id}', 'BannerController@delete')->name('banners.delete');
+        //Events
+        Route::get('/admin/events', 'EventController@index')->name('events');
+        Route::post('/admin/events/store', 'EventController@store')->name('events.store');
+        Route::get('/admin/events/edit/{id}', 'EventController@edit')->name('events.edit');
+        Route::post('/admin/events/update', 'EventController@update')->name('events.update');
+        Route::delete('/admin/events/delete/{id}', 'EventController@delete')->name('events.delete');
+        //Merchants
+        Route::get('/admin/merchants', 'MerchantController@index')->name('merchants');
+        Route::post('/admin/merchants/store', 'MerchantController@store')->name('merchants.store');
+        Route::get('/admin/merchants/edit/{id}', 'MerchantController@edit')->name('merchants.edit');
+        Route::post('/admin/merchants/update', 'MerchantController@update')->name('merchants.update');
+        Route::delete('/admin/merchants/delete/{id}', 'MerchantController@delete')->name('merchants.delete');
     });
 });
