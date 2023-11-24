@@ -72,13 +72,13 @@
                         </div>
                       </td>
                       <td>
-                        <a href="{{ $event->presenter_name }}" target="_blank">{{ $event->category }}</a>
+                        {{ $event->presenter_name }}
                       </td>
                       <td>
-                        <a href="{{ $event->category }}" target="_blank">{{ $event->category }}</a>
+                        {{ $event->category }}
                       </td>
                       <td>
-                        <a href="{{ $event->location }}" target="_blank">{{ $event->location }}</a>
+                        {{ $event->location }}
                       </td>
                       <td>
                         <div class="flex items-center justify-end gap-2">

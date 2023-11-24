@@ -146,7 +146,7 @@
       id: 5,
       name: "merchants",
       label: "Master Merchant",
-      link: "",
+      link: "/admin/merchants?sortDirection=desc&sortColumn=id",
       isLabel: false,
     },
     {

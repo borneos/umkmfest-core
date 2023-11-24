@@ -66,7 +66,7 @@
                         </div>
                       </td>
                       <td>
-                        <a href="{{ $banner->link }}" target="_blank">{{ $banner->link }}</a>
+                        {{ $banner->link }}
                       </td>
                       <td>
                         <div class="flex items-center justify-end gap-2">
