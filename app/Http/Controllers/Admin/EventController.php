@@ -62,7 +62,7 @@ class EventController extends Controller
         } else {
             $image_url = '';
             $additional_image = '';
-        };
+        }
 
         if ($request->file('presenter_image')) {
             $image_presenter = $this->UploadImageCloudinary(['image' => $request->file('presenter_image'), 'folder' => 'pktbeedufest/events']);
@@ -71,7 +71,7 @@ class EventController extends Controller
         } else {
             $image_url_presenter = '';
             $additional_image_presenter = '';
-        };
+        }
 
         Event::create([
             'name'  => $request->name,

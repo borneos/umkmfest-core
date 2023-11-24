@@ -139,7 +139,7 @@
       id: 4,
       name: "games",
       label: "Master Games",
-      link: "",
+      link: "/admin/games?sortDirection=desc&sortColumn=id",
       isLabel: false,
     },
     {

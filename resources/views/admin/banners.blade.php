@@ -153,7 +153,7 @@
         <label class="label">
           <span class="label-text text-base-content undefined">Name</span>
         </label>
-        <input id="name" name="name" type="text" placeholder="Your banner name" class="input input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" />
+        <input id="name" name="name" type="text" placeholder="Your banner name" class="input input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" required />
         <input type="hidden" name="banner_id" id="banner_id" />
         @if ($errors->has('name'))
           <label class="label">
@@ -166,7 +166,7 @@
           <span class="label-text text-base-content undefined">Image</span>
         </label>
         <img id="bannerPreviewEdit" class="rounded-md mx-auto">
-        <input name="image" id="image" type="file" accept="image/*" onchange="previewImageOnEdit()" class="file-input file-input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" />
+        <input name="image" id="image" type="file" accept="image/*" onchange="previewImageOnEdit()" class="file-input file-input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" required />
         @if ($errors->has('image'))
           <label class="label">
             <span class="label-text-alt text-error">{{ $errors->first('image') }}</span>
