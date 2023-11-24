@@ -51,7 +51,7 @@ class MerchantController extends Controller
         } else {
             $image_url = '';
             $additional_image = '';
-        };
+        }
 
         Merchant::create([
             'name' => $request->name,

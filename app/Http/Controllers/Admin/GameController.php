@@ -4,46 +4,49 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\CloudinaryImage;
+use App\Models\Game;
 use Illuminate\Http\Request;
-use App\Models\Banner;
+use Illuminate\Support\Str;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
-class BannerController extends Controller
+class GameController extends Controller
 {
     use CloudinaryImage;
 
     public function index(Request $request)
     {
-        $bannerQuery = Banner::query();
+        $gameQuery = Game::query();
         $sortColumn = $request->query('sortColumn');
         $sortDirection = $request->query('sortDirection');
         $searchParam = $request->query('q');
 
         if ($sortColumn && $sortDirection) {
-            $bannerQuery->orderBy($sortColumn, $sortDirection ?: 'asc');
+            $gameQuery->orderBy($sortColumn, $sortDirection ?: 'asc');
         }
 
         if ($searchParam) {
-            $bannerQuery = $bannerQuery->where(function ($query) use ($searchParam) {
+            $gameQuery = $gameQuery->where(function ($query) use ($searchParam) {
                 $query
-                    ->orWhere('name', 'like', "%$searchParam%")
-                    ->orWhere('link', 'like', "%$searchParam%");
+                    ->orWhere('name', 'like', "%$searchParam%");
             });
         }
 
-        $banners = $bannerQuery->paginate(5);
-        return view('admin.banners', compact('banners', 'sortColumn', 'sortDirection', 'searchParam'));
+        $games = $gameQuery->paginate(5);
+        return view('admin.games', compact('games', 'sortColumn', 'sortDirection', 'searchParam'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
+            'code' => 'required',
+            'pin' => 'required',
+            'description' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:8192'
         ]);
 
         if ($request->file('image')) {
-            $image = $this->UploadImageCloudinary(['image' => $request->file('image'), 'folder' => 'pktbeedufest/banners']);
+            $image = $this->UploadImageCloudinary(['image' => $request->file('image'), 'folder' => 'pktbeedufest/games']);
             $image_url = $image['url'];
             $additional_image = $image['additional_image'];
         } else {
@@ -51,23 +54,26 @@ class BannerController extends Controller
             $additional_image = '';
         }
 
-        Banner::create([
+        Game::create([
             'name'  => $request->name,
+            'code'  => $request->code,
+            'slug'  => Str::slug($request->name) . '-' . Str::random(5),
+            'pin'  => $request->pin,
+            'description'  => $request->description,
             'image' => $image_url,
             'image_additional'  => $additional_image,
-            'link'  => $request->link ?? '',
             'status'    => $request->status == "on" ? 1 : 0,
         ]);
 
-        return redirect()->back()->with('success', 'Banner berhasil disimpan!');
+        return redirect()->back()->with('success', 'Game berhasil disimpan!');
     }
 
     public function edit($id)
     {
-        $banner = Banner::find($id);
+        $game = Game::find($id);
         return response()->json([
             'status' => 200,
-            'banner' => $banner
+            'game' => $game
         ]);
     }
 
@@ -75,26 +81,32 @@ class BannerController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,svg|max:3000'
+            'code' => 'required',
+            'pin' => 'required',
+            'description' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,svg|max:8192'
         ]);
 
-        $banner = Banner::findOrFail($request->banner_id);
+        $game = Game::findOrFail($request->game_id);
 
         if ($request->file('image')) {
             $image = $this->UpdateImageCloudinary([
                 'image'      => $request->file('image'),
-                'folder'     => 'pktbeedufest/banners',
-                'collection' => $banner
+                'folder'     => 'pktbeedufest/games',
+                'collection' => $game
             ]);
             $image_url = $image['url'];
             $additional_image = $image['additional_image'];
         }
-        $banner->update([
+
+        $game->update([
             'name' => $request->name,
-            'image' => $image_url ?? $banner->image,
-            'link' => $request->link,
+            'code' => $request->code,
+            'pin' => $request->pin,
+            'description' => $request->description,
             'status'    => $request->status == "on" ? 1 : 0,
-            'image_additional' => $additional_image ?? $banner->additional_image
+            'image' => $image_url ?? $game->image,
+            'image_additional' => $additional_image ?? $game->additional_image
         ]);
 
         return redirect()->back()->with('success', 'Banner berhasil diubah!');
@@ -102,12 +114,12 @@ class BannerController extends Controller
 
     public function delete(Request $request)
     {
-        $banner = Banner::findOrFail($request->id);
-        if ($banner->image && $banner->image_additional) {
-            $key = json_decode($banner->image_additional);
+        $game = Game::findOrFail($request->id);
+        if ($game->image && $game->image_additional) {
+            $key = json_decode($game->image_additional);
             Cloudinary::destroy($key->public_id);
         }
-        $banner->delete();
+        $game->delete();
         return response()->json(['status' => 200]);
     }
 }

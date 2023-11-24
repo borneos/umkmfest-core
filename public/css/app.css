@@ -3030,3 +3030,7 @@ html {
     padding-right: 2rem;
   }
 }
+.\[\&\:\:-webkit-inner-spin-button\]\:appearance-none::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+          appearance: none;
+}

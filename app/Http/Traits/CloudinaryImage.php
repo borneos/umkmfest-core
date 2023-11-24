@@ -22,7 +22,7 @@ trait CloudinaryImage
             $image_url_webp = substr($image_url, 0, -3) . "webp";
         } elseif ($ext_jpeg == "jpeg") {
             $image_url_webp = substr($image_url, 0, -4) . "webp";
-        };
+        }
         $detail_image = [
             'public_id' =>  $image->getPublicId(),
             'file_type' =>  $image->getFileType(),
