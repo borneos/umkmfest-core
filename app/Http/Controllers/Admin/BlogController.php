@@ -4,49 +4,47 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\CloudinaryImage;
-use App\Models\Game;
+use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
-class GameController extends Controller
+class BlogController extends Controller
 {
     use CloudinaryImage;
 
     public function index(Request $request)
     {
-        $gameQuery = Game::query();
+        $blogQuery = Blog::query();
         $sortColumn = $request->query('sortColumn');
         $sortDirection = $request->query('sortDirection');
         $searchParam = $request->query('q');
 
         if ($sortColumn && $sortDirection) {
-            $gameQuery->orderBy($sortColumn, $sortDirection ?: 'asc');
+            $blogQuery->orderBy($sortColumn, $sortDirection ?: 'asc');
         }
 
         if ($searchParam) {
-            $gameQuery = $gameQuery->where(function ($query) use ($searchParam) {
+            $blogQuery = $blogQuery->where(function ($query) use ($searchParam) {
                 $query
                     ->orWhere('name', 'like', "%$searchParam%");
             });
         }
 
-        $games = $gameQuery->paginate(5);
-        return view('admin.games', compact('games', 'sortColumn', 'sortDirection', 'searchParam'));
+        $blogs = $blogQuery->paginate(5);
+        return view('admin.blogs', compact('blogs', 'sortColumn', 'sortDirection', 'searchParam'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
-            'code' => 'required',
-            'pin' => 'required',
             'description' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:8192'
         ]);
 
         if ($request->file('image')) {
-            $image = $this->UploadImageCloudinary(['image' => $request->file('image'), 'folder' => 'pktbeedufest/games']);
+            $image = $this->UploadImageCloudinary(['image' => $request->file('image'), 'folder' => 'pktbeedufest/blogs']);
             $image_url = $image['url'];
             $additional_image = $image['additional_image'];
         } else {
@@ -54,26 +52,24 @@ class GameController extends Controller
             $additional_image = '';
         }
 
-        Game::create([
+        Blog::create([
             'name'  => $request->name,
-            'code'  => $request->code,
             'slug'  => Str::slug($request->name) . '-' . Str::random(5),
-            'pin'  => $request->pin,
             'description'  => $request->description,
             'image' => $image_url,
             'image_additional'  => $additional_image,
             'status'    => $request->status == "on" ? 1 : 0,
         ]);
 
-        return redirect()->back()->with('success', 'Game berhasil disimpan!');
+        return redirect()->back()->with('success', 'Blog berhasil disimpan!');
     }
 
     public function edit($id)
     {
-        $game = Game::find($id);
+        $blog = Blog::find($id);
         return response()->json([
             'status' => 200,
-            'game' => $game
+            'blog' => $blog
         ]);
     }
 
@@ -81,45 +77,40 @@ class GameController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'code' => 'required',
-            'pin' => 'required',
             'description' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,svg|max:8192'
+            'image' => 'image|mimes:jpeg,png,jpg,svg|max:3000'
         ]);
 
-        $game = Game::findOrFail($request->game_id);
+        $blog = Blog::findOrFail($request->blog_id);
 
         if ($request->file('image')) {
             $image = $this->UpdateImageCloudinary([
                 'image'      => $request->file('image'),
-                'folder'     => 'pktbeedufest/games',
-                'collection' => $game
+                'folder'     => 'pktbeedufest/blogs',
+                'collection' => $blog
             ]);
             $image_url = $image['url'];
             $additional_image = $image['additional_image'];
         }
-
-        $game->update([
+        $blog->update([
             'name' => $request->name,
-            'code' => $request->code,
-            'pin' => $request->pin,
             'description' => $request->description,
             'status'    => $request->status == "on" ? 1 : 0,
-            'image' => $image_url ?? $game->image,
-            'image_additional' => $additional_image ?? $game->image_additional
+            'image' => $image_url ?? $blog->image,
+            'image_additional' => $additional_image ?? $blog->image_additional
         ]);
 
-        return redirect()->back()->with('success', 'Banner berhasil diubah!');
+        return redirect()->back()->with('success', 'Blog berhasil diubah!');
     }
 
     public function delete(Request $request)
     {
-        $game = Game::findOrFail($request->id);
-        if ($game->image && $game->image_additional) {
-            $key = json_decode($game->image_additional);
+        $blog = Blog::findOrFail($request->id);
+        if ($blog->image && $blog->image_additional) {
+            $key = json_decode($blog->image_additional);
             Cloudinary::destroy($key->public_id);
         }
-        $game->delete();
+        $blog->delete();
         return response()->json(['status' => 200]);
     }
 }
