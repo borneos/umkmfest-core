@@ -94,7 +94,7 @@ class BannerController extends Controller
             'image' => $image_url ?? $banner->image,
             'link' => $request->link,
             'status'    => $request->status == "on" ? 1 : 0,
-            'image_additional' => $additional_image ?? $banner->additional_image
+            'image_additional' => $additional_image ?? $banner->image_additional
         ]);
 
         return redirect()->back()->with('success', 'Banner berhasil diubah!');

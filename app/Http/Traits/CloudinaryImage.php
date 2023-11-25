@@ -48,15 +48,4 @@ trait CloudinaryImage
             return $this->UploadImageCloudinary(['image' => $data['image'], 'folder' => $data['folder']]);
         }
     }
-
-    public function destroy($id)
-    {
-        $banner = Banner::findOrFail($id);
-        if ($banner->image && $banner->additional_image) {
-            $key = json_decode($banner->additional_image);
-            Cloudinary::destroy($key->public_id);
-        }
-        $banner->delete();
-        return response()->json(['status' => 200]);
-    }
 }

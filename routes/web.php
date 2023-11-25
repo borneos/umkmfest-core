@@ -51,5 +51,11 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('/admin/games/edit/{id}', 'GameController@edit')->name('games.edit');
         Route::post('/admin/games/update', 'GameController@update')->name('games.update');
         Route::delete('/admin/games/delete/{id}', 'GameController@delete')->name('games.delete');
+        //Blogs
+        Route::get('/admin/blogs', 'BlogController@index')->name('blogs');
+        Route::post('/admin/blogs/store', 'BlogController@store')->name('blogs.store');
+        Route::get('/admin/blogs/edit/{id}', 'BlogController@edit')->name('blogs.edit');
+        Route::post('/admin/blogs/update', 'BlogController@update')->name('blogs.update');
+        Route::delete('/admin/blogs/delete/{id}', 'BlogController@delete')->name('blogs.delete');
     });
 });
