@@ -25,4 +25,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::group(['prefix' => 'banners'], function () {
         Route::get('/', 'BannerController@get_banners');
     });
+    Route::group(['prefix' => 'events'], function () {
+        Route::get('/', 'EventController@get_events');
+    });
 });

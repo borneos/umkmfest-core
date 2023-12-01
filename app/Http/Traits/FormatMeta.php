@@ -33,4 +33,22 @@ trait FormatMeta
             ],
         ];
     }
+
+    public function metaListEvent($data)
+    {
+        if ($data['countEvents'] != 0) {
+            $paginate = [
+                'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                'perPage' => (int)$data['perPage'],
+            ];
+        }
+        return [
+            [
+                'status' => $data['countEvents'] == 0 ? 'error' : 'success',
+                'statusCode' => $data['countEvents'] == 0 ? 500 : 200,
+                'statusMessage' => $data['countEvents'] == 0 ? 'Gagal mendapatkan data, server mengalami gangguan' : 'Berhasil medapatkan data event list',
+                'pagination' => $paginate ?? null
+            ],
+        ];
+    }
 }
