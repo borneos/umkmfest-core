@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\CloudinaryImage;
 use App\Models\Event;
+use App\Models\LogEventHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -166,5 +167,28 @@ class EventController extends Controller
         }
         $event->delete();
         return response()->json(['status' => 200]);
+    }
+
+    public function visitor(Request $request)
+    {
+        $visitorQuery = LogEventHistory::query();
+        $sortColumn = $request->query('sortColumn');
+        $sortDirection = $request->query('sortDirection');
+        $searchParam = $request->query('event');
+        $events = Event::all();
+
+        if ($sortColumn && $sortDirection) {
+            $visitorQuery->orderBy($sortColumn, $sortDirection ?: 'asc');
+        }
+
+        if ($searchParam) {
+            $visitorQuery = $visitorQuery->where(function ($query) use ($searchParam) {
+                $query
+                    ->orWhere('event_id', 'like', "%$searchParam%");
+            });
+        }
+
+        $visitors = $visitorQuery->paginate(5);
+        return view('admin.visitor-event', compact('visitors', 'sortColumn', 'sortDirection', 'searchParam', 'events'));
     }
 }
