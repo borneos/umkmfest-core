@@ -25,7 +25,7 @@
               </button>
             </div>
           </form>
-          <button class="btn btn-md btn-primary" onclick="modal_event.showModal()">Add</button>
+          <button class="btn btn-md btn-primary" onclick="addEvents()">Add</button>
         </div>
         <div class="card bg-white rounded-lg">
           <div class="card-body p-0">
@@ -102,342 +102,347 @@
     </div>
   </section>
 
-  <dialog id="modal_event" class="modal">
-    <form class="modal-box w-11/12 max-w-5xl" action="{{ route('admin.events.store') }}" onsubmit="disableButton()" method="POST" enctype="multipart/form-data">
-      @csrf
-      <a href="{{ $url }}" class="btn btn-sm btn-circle absolute right-2 top-2">✕</a>
-      <h3 class="font-semibold text-2xl pb-6 text-center">Add New Event</h3>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Name</span>
-        </label>
-        <input name="name" type="text" placeholder="Your event name" class="input input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" required />
-        @if ($errors->has('name'))
+  <section id="add" hidden>
+    <div class="card bg-white">
+      <form class="card-body p-4" action="{{ route('admin.events.store') }}" onsubmit="disableButton()" method="POST" enctype="multipart/form-data">
+        @csrf
+        <h3 class="font-semibold text-2xl pb-6 text-center">Add New Event</h3>
+        <div class="form-control w-full mt-2">
           <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('name') }}</span>
+            <span class="label-text text-base-content undefined">Name</span>
           </label>
-        @endif
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Category</span>
-        </label>
-        <select name="category" class="input input-bordered w-full {{ $errors->has('category') ? ' input-error' : '' }}">
-          <option disabled>Your event category</option>
-          <option selected value="regular">Regular</option>
-          <option value="training">Training</option>
-        </select>
-        @if ($errors->has('category'))
-          <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('category') }}</span>
-          </label>
-        @endif
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Description</span>
-        </label>
-        <textarea name="description" rows="3" class="textarea textarea-bordered w-full {{ $errors->has('description') ? ' input-error' : '' }}" required></textarea>
-        @if ($errors->has('description'))
-          <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('description') }}</span>
-          </label>
-        @endif
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Image</span>
-        </label>
-        <img id="eventPreview" class="rounded-md mx-auto" hidden>
-        <input name="image" id="image" type="file" accept="image/*" onchange="previewImageOnAdd()" class="file-input file-input-bordered w-full {{ $errors->has('image') ? ' input-error' : '' }}" required />
-        @if ($errors->has('image'))
-          <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('image') }}</span>
-          </label>
-        @endif
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Presenter Name</span>
-        </label>
-        <input name="presenter_name" type="text" placeholder="Your event presenter" class="input input-bordered w-full {{ $errors->has('presenter_name') ? ' input-error' : '' }}" />
-        @if ($errors->has('presenter_name'))
-          <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('presenter_name') }}</span>
-          </label>
-        @endif
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Presenter Position</span>
-        </label>
-        <input name="presenter_position" type="text" placeholder="Your event presenter position" class="input input-bordered w-full {{ $errors->has('presenter_position') ? ' input-error' : '' }}" />
-        @if ($errors->has('presenter_position'))
-          <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('presenter_position') }}</span>
-          </label>
-        @endif
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Presenter Image</span>
-        </label>
-        <img id="eventPreviewPresenter" class="rounded-md mx-auto" hidden>
-        <input name="presenter_image" id="presenter_image" type="file" accept="image/*" onchange="previewImageOnAddPresenter()" class="file-input file-input-bordered w-full {{ $errors->has('presenter_image') ? ' input-error' : '' }}" />
-        @if ($errors->has('presenter_image'))
-          <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('presenter_image') }}</span>
-          </label>
-        @endif
-      </div>
-      <div class="flex flex-row space-x-4">
-        <div class="flex-auto">
-          <div class="form-control w-full mt-2">
+          <input name="name" type="text" placeholder="Your event name" class="input input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" required />
+          @if ($errors->has('name'))
             <label class="label">
-              <span class="label-text text-base-content undefined">Date</span>
+              <span class="label-text-alt text-error">{{ $errors->first('name') }}</span>
             </label>
-            <input name="date" type="date" class="input input-bordered w-full join-item {{ $errors->has('date') ? ' input-error' : '' }}" required />
-            @if ($errors->has('date'))
+          @endif
+        </div>
+        <div class="form-control w-full mt-2">
+          <label class="label">
+            <span class="label-text text-base-content undefined">Category</span>
+          </label>
+          <select name="category" class="input input-bordered w-full {{ $errors->has('category') ? ' input-error' : '' }}">
+            <option disabled>Your event category</option>
+            <option selected value="regular">Regular</option>
+            <option value="training">Training</option>
+          </select>
+          @if ($errors->has('category'))
+            <label class="label">
+              <span class="label-text-alt text-error">{{ $errors->first('category') }}</span>
+            </label>
+          @endif
+        </div>
+        <div class="form-control w-full mt-2">
+          <label class="label">
+            <span class="label-text text-base-content undefined">Description</span>
+          </label>
+          <textarea name="description" id="description" rows="3" class="textarea textarea-bordered w-full {{ $errors->has('description') ? ' input-error' : '' }}" required></textarea>
+          @if ($errors->has('description'))
+            <label class="label">
+              <span class="label-text-alt text-error">{{ $errors->first('description') }}</span>
+            </label>
+          @endif
+        </div>
+        <div class="form-control w-full mt-2">
+          <label class="label">
+            <span class="label-text text-base-content undefined">Image</span>
+          </label>
+          <img id="eventPreview" class="rounded-md mx-auto" hidden>
+          <input name="image" id="image" type="file" accept="image/*" onchange="previewImageOnAdd()" class="file-input file-input-bordered w-full {{ $errors->has('image') ? ' input-error' : '' }}" required />
+          @if ($errors->has('image'))
+            <label class="label">
+              <span class="label-text-alt text-error">{{ $errors->first('image') }}</span>
+            </label>
+          @endif
+        </div>
+        <div class="form-control w-full mt-2">
+          <label class="label">
+            <span class="label-text text-base-content undefined">Presenter Name</span>
+          </label>
+          <input name="presenter_name" type="text" placeholder="Your event presenter" class="input input-bordered w-full {{ $errors->has('presenter_name') ? ' input-error' : '' }}" />
+          @if ($errors->has('presenter_name'))
+            <label class="label">
+              <span class="label-text-alt text-error">{{ $errors->first('presenter_name') }}</span>
+            </label>
+          @endif
+        </div>
+        <div class="form-control w-full mt-2">
+          <label class="label">
+            <span class="label-text text-base-content undefined">Presenter Position</span>
+          </label>
+          <input name="presenter_position" type="text" placeholder="Your event presenter position" class="input input-bordered w-full {{ $errors->has('presenter_position') ? ' input-error' : '' }}" />
+          @if ($errors->has('presenter_position'))
+            <label class="label">
+              <span class="label-text-alt text-error">{{ $errors->first('presenter_position') }}</span>
+            </label>
+          @endif
+        </div>
+        <div class="form-control w-full mt-2">
+          <label class="label">
+            <span class="label-text text-base-content undefined">Presenter Image</span>
+          </label>
+          <img id="eventPreviewPresenter" class="rounded-md mx-auto" hidden>
+          <input name="presenter_image" id="presenter_image" type="file" accept="image/*" onchange="previewImageOnAddPresenter()" class="file-input file-input-bordered w-full {{ $errors->has('presenter_image') ? ' input-error' : '' }}" />
+          @if ($errors->has('presenter_image'))
+            <label class="label">
+              <span class="label-text-alt text-error">{{ $errors->first('presenter_image') }}</span>
+            </label>
+          @endif
+        </div>
+        <div class="flex flex-row space-x-4">
+          <div class="flex-auto">
+            <div class="form-control w-full mt-2">
               <label class="label">
-                <span class="label-text-alt text-error">{{ $errors->first('date') }}</span>
+                <span class="label-text text-base-content undefined">Date</span>
               </label>
-            @endif
+              <input name="date" type="date" class="input input-bordered w-full join-item {{ $errors->has('date') ? ' input-error' : '' }}" required />
+              @if ($errors->has('date'))
+                <label class="label">
+                  <span class="label-text-alt text-error">{{ $errors->first('date') }}</span>
+                </label>
+              @endif
+            </div>
+          </div>
+          <div class="flex-auto">
+            <div class="form-control w-full mt-2">
+              <label class="label">
+                <span class="label-text text-base-content undefined">Start Time</span>
+              </label>
+              <input name="start_time" type="time" class="input input-bordered w-full join-item {{ $errors->has('start_time') ? ' input-error' : '' }}" required />
+              @if ($errors->has('start_time'))
+                <label class="label">
+                  <span class="label-text-alt text-error">{{ $errors->first('start_time') }}</span>
+                </label>
+              @endif
+            </div>
+          </div>
+          <div class="flex-auto">
+            <div class="form-control w-full mt-2">
+              <label class="label">
+                <span class="label-text text-base-content undefined">End Time</span>
+              </label>
+              <input name="end_time" type="time" class="input input-bordered w-full join-item {{ $errors->has('end_time') ? ' input-error' : '' }}" required />
+              @if ($errors->has('end_time'))
+                <label class="label">
+                  <span class="label-text-alt text-error">{{ $errors->first('end_time') }}</span>
+                </label>
+              @endif
+            </div>
           </div>
         </div>
-        <div class="flex-auto">
-          <div class="form-control w-full mt-2">
+        <div class="form-control w-full mt-2">
+          <label class="label">
+            <span class="label-text text-base-content undefined">Location</span>
+          </label>
+          <input name="location" type="text" placeholder="Your event location" class="input input-bordered w-full {{ $errors->has('location') ? ' input-error' : '' }}" />
+          @if ($errors->has('location'))
             <label class="label">
-              <span class="label-text text-base-content undefined">Start Time</span>
+              <span class="label-text-alt text-error">{{ $errors->first('location') }}</span>
             </label>
-            <input name="start_time" type="time" class="input input-bordered w-full join-item {{ $errors->has('start_time') ? ' input-error' : '' }}" required />
-            @if ($errors->has('start_time'))
-              <label class="label">
-                <span class="label-text-alt text-error">{{ $errors->first('start_time') }}</span>
-              </label>
-            @endif
-          </div>
+          @endif
         </div>
-        <div class="flex-auto">
-          <div class="form-control w-full mt-2">
+        <div class="form-control w-full mt-2">
+          <label class="label">
+            <span class="label-text text-base-content undefined">Location Link</span>
+          </label>
+          <input name="location_link" type="text" placeholder="Your event location link" class="input input-bordered w-full {{ $errors->has('location_link') ? ' input-error' : '' }}" />
+          @if ($errors->has('location_link'))
             <label class="label">
-              <span class="label-text text-base-content undefined">End Time</span>
+              <span class="label-text-alt text-error">{{ $errors->first('location_link') }}</span>
             </label>
-            <input name="end_time" type="time" class="input input-bordered w-full join-item {{ $errors->has('end_time') ? ' input-error' : '' }}" required />
-            @if ($errors->has('end_time'))
-              <label class="label">
-                <span class="label-text-alt text-error">{{ $errors->first('end_time') }}</span>
-              </label>
-            @endif
-          </div>
+          @endif
         </div>
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Location</span>
-        </label>
-        <input name="location" type="text" placeholder="Your event location" class="input input-bordered w-full {{ $errors->has('location') ? ' input-error' : '' }}" />
-        @if ($errors->has('location'))
+        <div class="form-control w-full mt-2">
           <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('location') }}</span>
+            <span class="label-text text-base-content undefined">Status</span>
           </label>
-        @endif
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Location Link</span>
-        </label>
-        <input name="location_link" type="text" placeholder="Your event location link" class="input input-bordered w-full {{ $errors->has('location_link') ? ' input-error' : '' }}" />
-        @if ($errors->has('location_link'))
-          <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('location_link') }}</span>
-          </label>
-        @endif
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Status</span>
-        </label>
-        <input type="checkbox" name="status" class="toggle" checked />
-        @if ($errors->has('link'))
-          <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('status') }}</span>
-          </label>
-        @endif
-      </div>
-      <x-form-action type="save" route="/admin/events" />
-    </form>
-  </dialog>
+          <input type="checkbox" name="status" class="toggle" checked />
+          @if ($errors->has('link'))
+            <label class="label">
+              <span class="label-text-alt text-error">{{ $errors->first('status') }}</span>
+            </label>
+          @endif
+        </div>
+        <x-form-action type="save" route="/admin/events" />
+      </form>
+    </div>
+  </section>
 
-  <dialog id="modal_event_edit" class="modal">
-    <form class="modal-box w-11/12 max-w-5xl" action="{{ route('admin.events.update') }}" onsubmit="disableButton()" method="POST" enctype="multipart/form-data">
-      @csrf
-      <a href="{{ $url }}" class="btn btn-sm btn-circle absolute right-2 top-2">✕</a>
-      <h3 class="font-semibold text-2xl pb-6 text-center">Edit Event</h3>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Name</span>
-        </label>
-        <input id="name" name="name" type="text" placeholder="Your event name" class="input input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" required />
-        <input type="hidden" name="event_id" id="event_id" />
-        @if ($errors->has('name'))
+  <section id="edit" hidden>
+    <div class="card bg-white">
+      <form class="card-body p-4" action="{{ route('admin.events.update') }}" onsubmit="disableButton()" method="POST" enctype="multipart/form-data">
+        @csrf
+        <h3 class="font-semibold text-2xl pb-6 text-center">Edit Event</h3>
+        <div class="form-control w-full mt-2">
           <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('name') }}</span>
+            <span class="label-text text-base-content undefined">Name</span>
           </label>
-        @endif
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Category</span>
-        </label>
-        <select name="category" id="category" class="input input-bordered w-full {{ $errors->has('category') ? ' input-error' : '' }}">
-          <option disabled>Your event category</option>
-          <option selected value="regular">Regular</option>
-          <option value="training">Training</option>
-        </select>
-        @if ($errors->has('category'))
-          <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('category') }}</span>
-          </label>
-        @endif
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Description</span>
-        </label>
-        <textarea name="description" id="description" rows="3" class="textarea textarea-bordered w-full {{ $errors->has('description') ? ' input-error' : '' }}" required></textarea>
-        @if ($errors->has('description'))
-          <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('description') }}</span>
-          </label>
-        @endif
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Image</span>
-        </label>
-        <img id="eventPreviewEdit" class="rounded-md mx-auto">
-        <input name="image" id="image" type="file" accept="image/*" onchange="previewImageOnEdit()" class="file-input file-input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" />
-        @if ($errors->has('image'))
-          <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('image') }}</span>
-          </label>
-        @endif
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Presenter Name</span>
-        </label>
-        <input name="presenter_name" id="presenter_name" type="text" placeholder="Your event presenter" class="input input-bordered w-full {{ $errors->has('presenter_name') ? ' input-error' : '' }}" />
-        @if ($errors->has('presenter_name'))
-          <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('presenter_name') }}</span>
-          </label>
-        @endif
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Presenter Position</span>
-        </label>
-        <input name="presenter_position" id="presenter_position" type="text" placeholder="Your event presenter position" class="input input-bordered w-full {{ $errors->has('presenter_position') ? ' input-error' : '' }}" />
-        @if ($errors->has('presenter_position'))
-          <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('presenter_position') }}</span>
-          </label>
-        @endif
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Presenter Image</span>
-        </label>
-        <img id="eventPreviewEditPresenter" class="rounded-md mx-auto">
-        <input name="presenter_image" id="presenter_image" type="file" accept="image/*" onchange="previewImageOnEditPresenter()" class="file-input file-input-bordered w-full {{ $errors->has('presenter_image') ? ' input-error' : '' }}" />
-        @if ($errors->has('presenter_image'))
-          <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('presenter_image') }}</span>
-          </label>
-        @endif
-      </div>
-      <div class="flex flex-row space-x-4">
-        <div class="flex-auto">
-          <div class="form-control w-full mt-2">
+          <input id="name" name="name" type="text" placeholder="Your event name" class="input input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" required />
+          <input type="hidden" name="event_id" id="event_id" />
+          @if ($errors->has('name'))
             <label class="label">
-              <span class="label-text text-base-content undefined">Date</span>
+              <span class="label-text-alt text-error">{{ $errors->first('name') }}</span>
             </label>
-            <input name="date" id="date" type="date" class="input input-bordered w-full join-item {{ $errors->has('date') ? ' input-error' : '' }}" required />
-            @if ($errors->has('date'))
+          @endif
+        </div>
+        <div class="form-control w-full mt-2">
+          <label class="label">
+            <span class="label-text text-base-content undefined">Category</span>
+          </label>
+          <select name="category" id="category" class="input input-bordered w-full {{ $errors->has('category') ? ' input-error' : '' }}">
+            <option disabled>Your event category</option>
+            <option selected value="regular">Regular</option>
+            <option value="training">Training</option>
+          </select>
+          @if ($errors->has('category'))
+            <label class="label">
+              <span class="label-text-alt text-error">{{ $errors->first('category') }}</span>
+            </label>
+          @endif
+        </div>
+        <div class="form-control w-full mt-2">
+          <label class="label">
+            <span class="label-text text-base-content undefined">Description</span>
+          </label>
+          <textarea name="description" id="descriptionEdit" rows="3" class="textarea textarea-bordered w-full {{ $errors->has('description') ? ' input-error' : '' }}" required></textarea>
+          @if ($errors->has('description'))
+            <label class="label">
+              <span class="label-text-alt text-error">{{ $errors->first('description') }}</span>
+            </label>
+          @endif
+        </div>
+        <div class="form-control w-full mt-2">
+          <label class="label">
+            <span class="label-text text-base-content undefined">Image</span>
+          </label>
+          <img id="eventPreviewEdit" class="rounded-md mx-auto">
+          <input name="image" id="image" type="file" accept="image/*" onchange="previewImageOnEdit()" class="file-input file-input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" />
+          @if ($errors->has('image'))
+            <label class="label">
+              <span class="label-text-alt text-error">{{ $errors->first('image') }}</span>
+            </label>
+          @endif
+        </div>
+        <div class="form-control w-full mt-2">
+          <label class="label">
+            <span class="label-text text-base-content undefined">Presenter Name</span>
+          </label>
+          <input name="presenter_name" id="presenter_name" type="text" placeholder="Your event presenter" class="input input-bordered w-full {{ $errors->has('presenter_name') ? ' input-error' : '' }}" />
+          @if ($errors->has('presenter_name'))
+            <label class="label">
+              <span class="label-text-alt text-error">{{ $errors->first('presenter_name') }}</span>
+            </label>
+          @endif
+        </div>
+        <div class="form-control w-full mt-2">
+          <label class="label">
+            <span class="label-text text-base-content undefined">Presenter Position</span>
+          </label>
+          <input name="presenter_position" id="presenter_position" type="text" placeholder="Your event presenter position" class="input input-bordered w-full {{ $errors->has('presenter_position') ? ' input-error' : '' }}" />
+          @if ($errors->has('presenter_position'))
+            <label class="label">
+              <span class="label-text-alt text-error">{{ $errors->first('presenter_position') }}</span>
+            </label>
+          @endif
+        </div>
+        <div class="form-control w-full mt-2">
+          <label class="label">
+            <span class="label-text text-base-content undefined">Presenter Image</span>
+          </label>
+          <img id="eventPreviewEditPresenter" class="rounded-md mx-auto">
+          <input name="presenter_image" id="presenter_image" type="file" accept="image/*" onchange="previewImageOnEditPresenter()" class="file-input file-input-bordered w-full {{ $errors->has('presenter_image') ? ' input-error' : '' }}" />
+          @if ($errors->has('presenter_image'))
+            <label class="label">
+              <span class="label-text-alt text-error">{{ $errors->first('presenter_image') }}</span>
+            </label>
+          @endif
+        </div>
+        <div class="flex flex-row space-x-4">
+          <div class="flex-auto">
+            <div class="form-control w-full mt-2">
               <label class="label">
-                <span class="label-text-alt text-error">{{ $errors->first('date') }}</span>
+                <span class="label-text text-base-content undefined">Date</span>
               </label>
-            @endif
+              <input name="date" id="date" type="date" class="input input-bordered w-full join-item {{ $errors->has('date') ? ' input-error' : '' }}" required />
+              @if ($errors->has('date'))
+                <label class="label">
+                  <span class="label-text-alt text-error">{{ $errors->first('date') }}</span>
+                </label>
+              @endif
+            </div>
+          </div>
+          <div class="flex-auto">
+            <div class="form-control w-full mt-2">
+              <label class="label">
+                <span class="label-text text-base-content undefined">Start Time</span>
+              </label>
+              <input name="start_time" id="start_time" type="time" class="input input-bordered w-full join-item {{ $errors->has('start_time') ? ' input-error' : '' }}" required />
+              @if ($errors->has('start_time'))
+                <label class="label">
+                  <span class="label-text-alt text-error">{{ $errors->first('start_time') }}</span>
+                </label>
+              @endif
+            </div>
+          </div>
+          <div class="flex-auto">
+            <div class="form-control w-full mt-2">
+              <label class="label">
+                <span class="label-text text-base-content undefined">End Time</span>
+              </label>
+              <input name="end_time" id="end_time" type="time" class="input input-bordered w-full join-item {{ $errors->has('end_time') ? ' input-error' : '' }}" required />
+              @if ($errors->has('end_time'))
+                <label class="label">
+                  <span class="label-text-alt text-error">{{ $errors->first('end_time') }}</span>
+                </label>
+              @endif
+            </div>
           </div>
         </div>
-        <div class="flex-auto">
-          <div class="form-control w-full mt-2">
+        <div class="form-control w-full mt-2">
+          <label class="label">
+            <span class="label-text text-base-content undefined">Location</span>
+          </label>
+          <input name="location" id="location" type="text" placeholder="Your event location" class="input input-bordered w-full {{ $errors->has('location') ? ' input-error' : '' }}" />
+          @if ($errors->has('location'))
             <label class="label">
-              <span class="label-text text-base-content undefined">Start Time</span>
+              <span class="label-text-alt text-error">{{ $errors->first('location') }}</span>
             </label>
-            <input name="start_time" id="start_time" type="time" class="input input-bordered w-full join-item {{ $errors->has('start_time') ? ' input-error' : '' }}" required />
-            @if ($errors->has('start_time'))
-              <label class="label">
-                <span class="label-text-alt text-error">{{ $errors->first('start_time') }}</span>
-              </label>
-            @endif
-          </div>
+          @endif
         </div>
-        <div class="flex-auto">
-          <div class="form-control w-full mt-2">
+        <div class="form-control w-full mt-2">
+          <label class="label">
+            <span class="label-text text-base-content undefined">Location Link</span>
+          </label>
+          <input name="location_link" id="location_link" type="text" placeholder="Your event location link" class="input input-bordered w-full {{ $errors->has('location_link') ? ' input-error' : '' }}" />
+          @if ($errors->has('location_link'))
             <label class="label">
-              <span class="label-text text-base-content undefined">End Time</span>
+              <span class="label-text-alt text-error">{{ $errors->first('location_link') }}</span>
             </label>
-            <input name="end_time" id="end_time" type="time" class="input input-bordered w-full join-item {{ $errors->has('end_time') ? ' input-error' : '' }}" required />
-            @if ($errors->has('end_time'))
-              <label class="label">
-                <span class="label-text-alt text-error">{{ $errors->first('end_time') }}</span>
-              </label>
-            @endif
-          </div>
+          @endif
         </div>
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Location</span>
-        </label>
-        <input name="location" id="location" type="text" placeholder="Your event location" class="input input-bordered w-full {{ $errors->has('location') ? ' input-error' : '' }}" />
-        @if ($errors->has('location'))
+        <div class="form-control w-full mt-2">
           <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('location') }}</span>
+            <span class="label-text text-base-content undefined">Status</span>
           </label>
-        @endif
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Location Link</span>
-        </label>
-        <input name="location_link" id="location_link" type="text" placeholder="Your event location link" class="input input-bordered w-full {{ $errors->has('location_link') ? ' input-error' : '' }}" />
-        @if ($errors->has('location_link'))
-          <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('location_link') }}</span>
-          </label>
-        @endif
-      </div>
-      <div class="form-control w-full mt-2">
-        <label class="label">
-          <span class="label-text text-base-content undefined">Status</span>
-        </label>
-        <input id="status" type="checkbox" name="status" class="toggle" />
-        @if ($errors->has('link'))
-          <label class="label">
-            <span class="label-text-alt text-error">{{ $errors->first('status') }}</span>
-          </label>
-        @endif
-      </div>
-      <x-form-action type="update" route="/admin/events" />
-    </form>
-  </dialog>
+          <input id="status" type="checkbox" name="status" class="toggle" />
+          @if ($errors->has('link'))
+            <label class="label">
+              <span class="label-text-alt text-error">{{ $errors->first('status') }}</span>
+            </label>
+          @endif
+        </div>
+        <x-form-action type="update" route="/admin/events" />
+      </form>
+    </div>
+  </section>
 
 @endsection
 @section('js')
   <script>
+    CKEDITOR.replace('description');
+    CKEDITOR.replace('descriptionEdit');
+
     function previewImageOnAdd() {
       const file = event.target.files[0];
       if (file.size > 3080000) {
@@ -491,15 +496,14 @@
     }
 
     function handleEdit(id) {
-      modal_event_edit.showModal();
+      $("#list").hide();
+      $("#edit").show();
       $.ajax({
         type: "GET",
         url: "/admin/events/edit/" + id,
         success: function(response) {
           $("#event_id").val(response.event.id);
           $("#name").val(response.event.name);
-          $("#category").val(response.event.category);
-          $("#description").val(response.event.description);
           $("#presenter_name").val(response.event.presenter_name);
           $("#presenter_position").val(response.event.presenter_position);
           $("#date").val(response.event.date);
@@ -507,9 +511,12 @@
           $("#end_time").val(response.event.end_time);
           $("#location").val(response.event.location);
           $("#location_link").val(response.event.location_link);
+          //   $("#category").val(response.event.category);
+          $("#category").val(response.event.category)
           response.event.status == 1 ? $("#status").prop("checked", true) : "";
           image ? $('#eventPreviewEdit').attr('src', response.event.image || '') : null;
           presenter_image ? $('#eventPreviewEditPresenter').attr('src', response.event.presenter_image || '') : null;
+          CKEDITOR.instances['descriptionEdit'].setData(response.event.description);
         }
       })
     }
@@ -548,6 +555,11 @@
           });
         }
       })
+    }
+
+    function addEvents() {
+      $("#list").hide();
+      $("#add").show();
     }
 
     function disableButton() {
