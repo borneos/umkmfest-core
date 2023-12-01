@@ -19,7 +19,7 @@ class CreateLogEventHistoriesTable extends Migration
             $table->string('name');
             $table->string('telp')->unique();
             $table->string('email')->unique();
-            $table->timestamp('checkin_at');
+            $table->timestamp('checkin_at')->nullable();
             $table->timestamps();
         });
     }

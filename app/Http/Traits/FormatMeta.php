@@ -51,4 +51,16 @@ trait FormatMeta
             ],
         ];
     }
+
+    public function metaStoreLogEvent()
+    {
+        return [[
+            'status' => 'success',
+            'statusCode' => 200,
+            'data' => [
+                'status' => true,
+                'message' => 'Berhasil Mendaftar Event'
+            ]
+        ],];
+    }
 }

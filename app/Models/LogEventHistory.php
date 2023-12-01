@@ -11,6 +11,9 @@ class LogEventHistory extends Model
 
     protected $fillable = [
         'event_id',
+        'event_name',
+        'event_category',
+        'event_date',
         'name',
         'telp',
         'email',
