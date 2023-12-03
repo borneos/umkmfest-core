@@ -75,7 +75,7 @@
                         {{ $event->presenter_name }}
                       </td>
                       <td>
-                        {{ $event->category }}
+                        {{ Str::ucfirst($event->category) }}
                       </td>
                       <td>
                         {{ $event->location }}

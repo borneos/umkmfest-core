@@ -31,7 +31,7 @@ class BannerController extends Controller
             });
         }
 
-        $banners = $bannerQuery->paginate(5);
+        $banners = $bannerQuery->paginate(10);
         return view('admin.banners', compact('banners', 'sortColumn', 'sortDirection', 'searchParam'));
     }
 

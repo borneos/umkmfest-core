@@ -35,7 +35,7 @@ class EventController extends Controller
             });
         }
 
-        $events = $eventQuery->paginate(5);
+        $events = $eventQuery->paginate(1);
         return view('admin.events', compact('events', 'sortColumn', 'sortDirection', 'searchParam'));
     }
 
@@ -188,7 +188,7 @@ class EventController extends Controller
             });
         }
 
-        $visitors = $visitorQuery->paginate(5);
+        $visitors = $visitorQuery->paginate(10);
         return view('admin.visitor-event', compact('visitors', 'sortColumn', 'sortDirection', 'searchParam', 'events'));
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Traits;
 
 use App\Models\Event as ModelsEvent;
 
-trait event
+trait Event
 {
     public function queryEventList($data)
     {
@@ -23,6 +23,13 @@ trait event
                 ->orderBy('id', $sort)
                 ->paginate($perPage);
         }
+    }
+
+    public function queryEvent($id)
+    {
+        $event = ModelsEvent::where('id', '=', $id)->first();
+
+        return $event;
     }
 
     public function resultEventList($data)

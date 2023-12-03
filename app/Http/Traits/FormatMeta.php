@@ -22,6 +22,17 @@ trait FormatMeta
         ];
     }
 
+    public function metaDetailBlog($data)
+    {
+        return [
+            [
+                'status' => $data['countBlogs'] == 0 ? 'error' : 'success',
+                'statusCode' => $data['countBlogs'] == 0 ? 500 : 200,
+                'statusMessage' => $data['countBlogs'] == 0 ? 'Gagal mendapatkan data, server mengalami gangguan' : 'Berhasil medapatkan data blog detail'
+            ],
+        ];
+    }
+
     public function metaListBanner($data)
     {
         return [
@@ -73,5 +84,16 @@ trait FormatMeta
                 'message' => 'Berhasil Mendaftar Event'
             ]
         ],];
+    }
+
+    public function metaEventHistory($data)
+    {
+        return [
+            [
+                'status' => $data['success'] == false ? 'error' : 'success',
+                'statusCode' => $data['success'] == false ? 500 : 200,
+                'statusMessage' => $data['success'] == false ? 'Gagal mendapatkan data, server mengalami gangguan' : 'Berhasil medapatkan data log event histories'
+            ],
+        ];
     }
 }
