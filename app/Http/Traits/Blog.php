@@ -17,6 +17,11 @@ trait Blog
             ->paginate($perPage);
     }
 
+    public function queryDetailBlog($data)
+    {
+        return ModelsBlog::where('slug', '=', $data['slug'])->first();
+    }
+
     public function resultBlogList($data)
     {
         foreach ($data as $result) {
@@ -31,6 +36,21 @@ trait Blog
                 'updateAt' => $result->update_at
             ];
         }
+        return $results;
+    }
+
+    public function resultBlogDetail($data)
+    {
+        $results[] = [
+            'name' => $data->name,
+            'slug' => $data->slug,
+            'description' => $data->description,
+            'image' => $data->image,
+            'imageAdditional' => $data->image_additional,
+            'status' => $data->status,
+            'createdAt' => $data->created_at,
+            'updateAt' => $data->update_at
+        ];
         return $results;
     }
 }

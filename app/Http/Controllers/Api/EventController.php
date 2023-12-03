@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Traits\event;
+use App\Http\Traits\Event;
 use App\Http\Traits\FormatMeta;
 use App\Models\Event as ModelsEvent;
 use App\Models\LogEventHistory;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
-    use event, FormatMeta;
+    use Event, FormatMeta;
 
     public function get_events(Request $request)
     {
@@ -35,22 +35,49 @@ class EventController extends Controller
         }
     }
 
+    public function detail_events($slug)
+    {
+        $events = $this->queryDetailEvent(compact('slug'));
+        $countEvents = $events == null ? 0 : $events->count();
+        $meta = $this->metaDetailEvent([
+            'countEvents' => $countEvents
+        ]);
+
+        if (!$events) {
+            return response()->json(['meta' => $meta, 'data' => null]);
+        } else {
+            return response()->json(['meta' => $meta, 'data' => $this->resultEventDetail($events)]);
+        }
+    }
+
     public function store_log_events(Request $request)
     {
-        $event = ModelsEvent::where('id', '=', $request->eventId)->first();
+        $cekEvent = LogEventHistory::where('event_id', '=', $request->eventId)
+            ->where('email', '=', $request['email'])
+            ->where('telp', '=', $request['telp'])
+            ->first();
 
-        if ($event->count() != 0) {
+        if (!$cekEvent) {
+            $event = ModelsEvent::where('id', '=', $request->eventId)->first();
+            if ($event->count() != 0) {
 
-            LogEventHistory::create([
-                'event_id' => $request->eventId,
-                'event_name' => $event->name,
-                'event_category' => $event->category,
-                'event_date' => $event->date,
-                'name' => $request->name,
-                'telp' => $request->telp,
-                'email' => $request->email
+                LogEventHistory::create([
+                    'event_id' => $request->eventId,
+                    'event_name' => $event->name,
+                    'event_category' => $event->category,
+                    'event_date' => $event->date,
+                    'name' => $request->name,
+                    'telp' => $request->telp,
+                    'email' => $request->email
+                ]);
+                return response()->json($this->metaStoreLogEvent());
+            }
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'statusCode' => 400,
+                'statusMessage' => 'Gagal mendaftar, Email atau No Telepon telah digunakan!!!'
             ]);
-            return response()->json($this->metaStoreLogEvent());
         }
     }
 }

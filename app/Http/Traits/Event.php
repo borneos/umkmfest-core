@@ -4,7 +4,7 @@ namespace App\Http\Traits;
 
 use App\Models\Event as ModelsEvent;
 
-trait event
+trait Event
 {
     public function queryEventList($data)
     {
@@ -23,6 +23,18 @@ trait event
                 ->orderBy('id', $sort)
                 ->paginate($perPage);
         }
+    }
+
+    public function queryEvent($id)
+    {
+        $event = ModelsEvent::where('id', '=', $id)->first();
+
+        return $event;
+    }
+
+    public function queryDetailEvent($data)
+    {
+        return ModelsEvent::where('slug', '=', $data['slug'])->first();
     }
 
     public function resultEventList($data)
@@ -49,6 +61,31 @@ trait event
                 'updateAt' => $result->update_at
             ];
         }
+        return $results;
+    }
+
+    public function resultEventDetail($data)
+    {
+        $results[] = [
+            'name' => $data->name,
+            'category' => $data->category,
+            'slug' => $data->slug,
+            'description' => $data->description,
+            'presenterName' => $data->presenter_name,
+            'presenterPosition' => $data->presenter_position,
+            'presenterImage' => $data->presenter_image,
+            'presenterImageAdditional' => $data->presenter_image_additional,
+            'image' => $data->image,
+            'imageAdditional' => $data->image_additional,
+            'date' => $data->date,
+            'start_time' => $data->start_time,
+            'end_time' => $data->end_time,
+            'location' => $data->location,
+            'linkLocation' => $data->location_link,
+            'status' => $data->status,
+            'createdAt' => $data->created_at,
+            'updateAt' => $data->update_at
+        ];
         return $results;
     }
 }

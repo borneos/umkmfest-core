@@ -31,7 +31,7 @@ class GameController extends Controller
             });
         }
 
-        $games = $gameQuery->paginate(5);
+        $games = $gameQuery->paginate(10);
         return view('admin.games', compact('games', 'sortColumn', 'sortDirection', 'searchParam'));
     }
 

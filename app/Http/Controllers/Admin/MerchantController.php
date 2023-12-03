@@ -31,7 +31,7 @@ class MerchantController extends Controller
             });
         }
 
-        $merchants = $merchantQuery->paginate(5);
+        $merchants = $merchantQuery->paginate(10);
         return view('admin.merchants', compact('merchants', 'sortColumn', 'sortDirection', 'searchParam'));
     }
 

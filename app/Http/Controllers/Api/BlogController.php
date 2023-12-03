@@ -24,10 +24,25 @@ class BlogController extends Controller
             'countBlogs' => $countBlogs
         ]);
 
-        if ($countBlogs == 0) {
+        if (!$blogs) {
             return response()->json(['meta' => $meta, 'data' => null]);
         } else {
             return response()->json(['meta' => $meta, 'data' => $this->resultBlogList($blogs)]);
+        }
+    }
+
+    public function detail_blogs($slug)
+    {
+        $blogs = $this->queryDetailBlog(compact('slug'));
+        $countBlogs = $blogs == null ? 0 : $blogs->count();
+        $meta = $this->metaDetailBlog([
+            'countBlogs' => $countBlogs
+        ]);
+
+        if (!$blogs) {
+            return response()->json(['meta' => $meta, 'data' => null]);
+        } else {
+            return response()->json(['meta' => $meta, 'data' => $this->resultBlogDetail($blogs)]);
         }
     }
 }

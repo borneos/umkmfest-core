@@ -31,7 +31,7 @@ class BlogController extends Controller
             });
         }
 
-        $blogs = $blogQuery->paginate(5);
+        $blogs = $blogQuery->paginate(10);
         return view('admin.blogs', compact('blogs', 'sortColumn', 'sortDirection', 'searchParam'));
     }
 
