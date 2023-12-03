@@ -63,6 +63,18 @@ trait FormatMeta
         ];
     }
 
+    public function metaDetailEvent($data)
+    {
+        return [
+            [
+                'status' => $data['countEvents'] == 0 ? 'error' : 'success',
+                'statusCode' => $data['countEvents'] == 0 ? 500 : 200,
+                'statusMessage' => $data['countEvents'] == 0 ? 'Gagal mendapatkan data, server mengalami gangguan' : 'Berhasil medapatkan data event detail'
+            ],
+        ];
+    }
+
+
     public function metaListMerchant($data)
     {
         return [

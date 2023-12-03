@@ -35,6 +35,21 @@ class EventController extends Controller
         }
     }
 
+    public function detail_events($slug)
+    {
+        $events = $this->queryDetailEvent(compact('slug'));
+        $countEvents = $events == null ? 0 : $events->count();
+        $meta = $this->metaDetailEvent([
+            'countEvents' => $countEvents
+        ]);
+
+        if (!$events) {
+            return response()->json(['meta' => $meta, 'data' => null]);
+        } else {
+            return response()->json(['meta' => $meta, 'data' => $this->resultEventDetail($events)]);
+        }
+    }
+
     public function store_log_events(Request $request)
     {
         $cekEvent = LogEventHistory::where('event_id', '=', $request->eventId)

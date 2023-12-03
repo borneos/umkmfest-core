@@ -32,6 +32,7 @@ Route::group(['namespace' => 'Api'], function () {
     });
     Route::group(['prefix' => 'events'], function () {
         Route::get('/', 'EventController@get_events');
+        Route::get('/{slug}', 'EventController@detail_events');
         Route::post('/', 'EventController@store_log_events');
     });
     Route::group(['prefix' => 'log-event-histories'], function () {
