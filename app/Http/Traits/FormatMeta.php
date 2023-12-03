@@ -74,6 +74,17 @@ trait FormatMeta
         ];
     }
 
+    public function metaDetailMerchant($data)
+    {
+        return [
+            [
+                'status' => $data['countMerchants'] == 0 ? 'error' : 'success',
+                'statusCode' => $data['countMerchants'] == 0 ? 500 : 200,
+                'statusMessage' => $data['countMerchants'] == 0 ? 'Gagal mendapatkan data, server mengalami gangguan' : 'Berhasil medapatkan data merchant detail'
+            ],
+        ];
+    }
+
     public function metaStoreLogEvent()
     {
         return [[

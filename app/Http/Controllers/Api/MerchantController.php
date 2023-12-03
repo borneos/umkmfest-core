@@ -26,4 +26,19 @@ class MerchantController extends Controller
             return response()->json(['meta' => $meta, 'data' => $this->resultMerchantList($merchants)]);
         }
     }
+
+    public function detail_merchants($slug)
+    {
+        $merchants = $this->queryMerchantDetail(compact('slug'));
+        $countMerchants = $merchants == null ? 0 : $merchants->count();
+        $meta = $this->metaDetailMerchant([
+            'countMerchants' => $countMerchants
+        ]);
+
+        if (!$merchants) {
+            return response()->json(['meta' => $meta, 'data' => null]);
+        } else {
+            return response()->json(['meta' => $meta, 'data' => $this->resultMerchantDetail($merchants)]);
+        }
+    }
 }

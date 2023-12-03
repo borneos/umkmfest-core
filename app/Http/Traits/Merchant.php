@@ -15,6 +15,11 @@ trait Merchant
             ->orderBy('id', $sort)->get();
     }
 
+    public function queryMerchantDetail($data)
+    {
+        return ModelsMerchant::where('slug', '=', $data['slug'])->first();
+    }
+
     public function resultMerchantList($data)
     {
         foreach ($data as $result) {
@@ -29,6 +34,21 @@ trait Merchant
                 'updateAt' => $result->update_at
             ];
         }
+        return $results;
+    }
+
+    public function resultMerchantDetail($data)
+    {
+        $results[] = [
+            'name' => $data->name,
+            'slug' => $data->slug,
+            'description' => $data->description,
+            'image' => $data->image,
+            'imageAdditional' => $data->image_additional,
+            'status' => $data->status,
+            'createdAt' => $data->created_at,
+            'updateAt' => $data->update_at
+        ];
         return $results;
     }
 }

@@ -28,6 +28,7 @@ Route::group(['namespace' => 'Api'], function () {
     });
     Route::group(['prefix' => 'merchants'], function () {
         Route::get('/', 'MerchantController@get_merchants');
+        Route::get('/{slug}', 'MerchantController@detail_merchants');
     });
     Route::group(['prefix' => 'events'], function () {
         Route::get('/', 'EventController@get_events');
