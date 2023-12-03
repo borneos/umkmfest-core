@@ -165,9 +165,9 @@
     },
     {
       id: 8,
-      name: "visitor events",
+      name: "visitor",
       label: "Visitor Event",
-      link: "",
+      link: "/admin/visitor?sortDirection=desc&sortColumn=id",
       isLabel: false,
     },
     {

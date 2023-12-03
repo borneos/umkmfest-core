@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LogEventHistory extends Model
+class LogGameHistory extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'event_id',
-        'event_name',
-        'event_category',
-        'event_date',
+        'id_event',
+        'id_game',
         'name',
         'telp',
-        'email',
-        'checkin_at'
+        'play_date',
+        'wins_at',
+        'complete_at',
     ];
 }

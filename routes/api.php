@@ -25,7 +25,11 @@ Route::group(['namespace' => 'Api'], function () {
     Route::group(['prefix' => 'banners'], function () {
         Route::get('/', 'BannerController@get_banners');
     });
+    Route::group(['prefix' => 'merchants'], function () {
+        Route::get('/', 'MerchantController@get_merchants');
+    });
     Route::group(['prefix' => 'events'], function () {
         Route::get('/', 'EventController@get_events');
+        Route::post('/', 'EventController@store_log_events');
     });
 });

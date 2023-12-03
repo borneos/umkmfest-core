@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLogEventHistoriesTable extends Migration
+class CreateLogGameHistoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreateLogEventHistoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('log_event_histories', function (Blueprint $table) {
+        Schema::create('log_game_histories', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('event_id');
+            $table->string('id_event');
+            $table->string('id_game');
             $table->string('name');
-            $table->string('telp')->unique();
-            $table->string('email')->unique();
-            $table->timestamp('checkin_at')->nullable();
+            $table->string('telp');
+            $table->timestamp('play_date');
+            $table->time('wins_at');
+            $table->time('complete_at');
             $table->timestamps();
         });
     }
@@ -31,6 +33,6 @@ class CreateLogEventHistoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('log_event_histories');
+        Schema::dropIfExists('log_game_histories');
     }
 }
