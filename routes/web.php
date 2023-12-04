@@ -46,17 +46,23 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('/admin/merchants/edit/{id}', 'MerchantController@edit')->name('merchants.edit');
         Route::post('/admin/merchants/update', 'MerchantController@update')->name('merchants.update');
         Route::delete('/admin/merchants/delete/{id}', 'MerchantController@delete')->name('merchants.delete');
-        //Games
-        Route::get('/admin/games', 'GameController@index')->name('games');
-        Route::post('/admin/games/store', 'GameController@store')->name('games.store');
-        Route::get('/admin/games/edit/{id}', 'GameController@edit')->name('games.edit');
-        Route::post('/admin/games/update', 'GameController@update')->name('games.update');
-        Route::delete('/admin/games/delete/{id}', 'GameController@delete')->name('games.delete');
         //Blogs
         Route::get('/admin/blogs', 'BlogController@index')->name('blogs');
         Route::post('/admin/blogs/store', 'BlogController@store')->name('blogs.store');
         Route::get('/admin/blogs/edit/{id}', 'BlogController@edit')->name('blogs.edit');
         Route::post('/admin/blogs/update', 'BlogController@update')->name('blogs.update');
         Route::delete('/admin/blogs/delete/{id}', 'BlogController@delete')->name('blogs.delete');
+        //Games
+        Route::get('/admin/games', 'GameController@index')->name('games');
+        Route::post('/admin/games/store', 'GameController@store')->name('games.store');
+        Route::get('/admin/games/edit/{id}', 'GameController@edit')->name('games.edit');
+        Route::post('/admin/games/update', 'GameController@update')->name('games.update');
+        Route::delete('/admin/games/delete/{id}', 'GameController@delete')->name('games.delete');
+        //Missions
+        Route::get('/admin/games/missions/{id}', 'MissionController@index')->name('missions');
+        Route::post('/admin/games/missions/store', 'MissionController@store')->name('missions.store');
+        Route::get('/admin/games/missions/edit/{id}', 'MissionController@edit')->name('missions.edit');
+        Route::post('/admin/games/missions/update', 'MissionController@update')->name('missions.update');
+        Route::delete('/admin/games/missions/delete/{id}', 'MissionController@delete')->name('missions.delete');
     });
 });
