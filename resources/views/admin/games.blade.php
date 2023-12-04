@@ -319,30 +319,6 @@
       })
     }
 
-    // // function listMission(id) {
-    // //   $("#list").hide();
-    // //   $("#listMission").show();
-    // //   $.ajax({
-    // //     type: "GET",
-    // //     url: "/admin/missions/" + id,
-    // //     success: function(response) {
-    // //       console.log(response.mission);
-    // //       //   const mission = response?.mission || {};
-    // //       //   const photos = gallery.photo;
-    // //       //   $("#gallery_id_photo").val(gallery.id);
-    // //       //   $("#title").text("Add Photo at " + gallery.name);
-    // //       //   for (let i = 0; i < photos.length; i++) {
-    // //       //     var images = JSON.parse(photos[i].image);
-    // //       //     var realImage = images.realImage;
-    // //       //     var num = i + 1;
-    // //       //     $(".delete" + num).removeAttr('disabled').attr('id', photos[i].id);
-    // //       //     $('#image' + num).attr('disabled', 'disabled');
-    // //       //     $('#preview_image' + num).attr('src', realImage || '');
-    // //       //   }
-    // //     }
-    // //   })
-    // }
-
     function handleDelete(id) {
       Swal.fire({
         title: 'Are you sure?',
