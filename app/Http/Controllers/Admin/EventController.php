@@ -176,6 +176,7 @@ class EventController extends Controller
         $sortDirection = $request->query('sortDirection');
         $searchParam = $request->query('event');
         $events = Event::all();
+        $eventTitle = Event::where('id', '=', $searchParam)->first();
 
         if ($sortColumn && $sortDirection) {
             $visitorQuery->orderBy($sortColumn, $sortDirection ?: 'asc');
@@ -189,6 +190,23 @@ class EventController extends Controller
         }
 
         $visitors = $visitorQuery->paginate(10);
-        return view('admin.visitor-event', compact('visitors', 'sortColumn', 'sortDirection', 'searchParam', 'events'));
+        return view('admin.visitor-event', compact('visitors', 'sortColumn', 'sortDirection', 'searchParam', 'events', 'eventTitle'));
+    }
+
+    public function visitorAttendance($id)
+    {
+        $event = LogEventHistory::findOrFail($id);
+
+        if ($event->attendance == null) {
+            $event->update(
+                ['attendance' => now()]
+            );
+        } else {
+            $event->update(
+                ['attendance' => null]
+            );
+        }
+
+        return redirect()->back()->with('success', 'Berhasil Absen!');
     }
 }

@@ -36,6 +36,9 @@ Route::group(['namespace' => 'Api'], function () {
         Route::post('/', 'EventController@store_log_events');
     });
     Route::group(['prefix' => 'log-event-histories'], function () {
-        Route::get('/', 'LogEventHistoriesController@get_event_histories');
+        Route::get('/', 'LogEventHistoryController@get_event_histories');
+    });
+    Route::group(['prefix' => 'game-histories'], function () {
+        Route::get('/', 'LogGameHistoryController@get_game_histories');
     });
 });

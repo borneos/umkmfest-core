@@ -3,7 +3,6 @@
 namespace App\Http\Traits;
 
 use App\Http\Traits\Event as TraitsEvent;
-use App\Models\Event;
 use App\Models\LogEventHistory as ModelsLogEventHistory;
 
 trait LogEventHistory

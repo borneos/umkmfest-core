@@ -2715,6 +2715,9 @@ html {
 .cursor-default {
   cursor: default;
 }
+.cursor-pointer {
+  cursor: pointer;
+}
 .resize {
   resize: both;
 }
