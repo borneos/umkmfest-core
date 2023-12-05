@@ -14,8 +14,8 @@ trait LogGameHistory
         $email = $data['email'];
         $sort = $data['sort'];
 
-        return ModelsLogGameHistory::orwhere('telp', '=', $telp)
-            ->orwhere('email', '=', $email)
+        return ModelsLogGameHistory::where('telp', '=', $telp)
+            ->where('email', '=', $email)
             ->orderBy('id', $sort)
             ->get();
     }
