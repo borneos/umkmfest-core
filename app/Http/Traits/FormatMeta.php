@@ -99,14 +99,14 @@ trait FormatMeta
 
     public function metaStoreLogEvent()
     {
-        return [[
+        return [
             'status' => 'success',
             'statusCode' => 200,
             'data' => [
                 'status' => true,
                 'message' => 'Berhasil Mendaftar Event'
             ]
-        ],];
+        ];
     }
 
     public function metaEventHistory($data)
@@ -116,6 +116,23 @@ trait FormatMeta
                 'status' => $data['success'] == false ? 'error' : 'success',
                 'statusCode' => $data['success'] == false ? 500 : 200,
                 'statusMessage' => $data['success'] == false ? 'Gagal mendapatkan data, server mengalami gangguan' : 'Berhasil medapatkan data log event histories'
+            ],
+        ];
+    }
+    public function metaGameHistory($data)
+    {
+        if ($data['countGameHistories'] != 0) {
+            $paginate = [
+                'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                'perPage' => (int)$data['perPage'],
+            ];
+        }
+        return [
+            [
+                'status' => $data['countGameHistories'] == 0 ? 'error' : 'success',
+                'statusCode' => $data['countGameHistories'] == 0 ? 500 : 200,
+                'statusMessage' => $data['countGameHistories'] == 0 ? 'Gagal mendapatkan data, server mengalami gangguan' : 'Berhasil medapatkan data log game histories',
+                'pagination' => $paginate ?? null
             ],
         ];
     }
