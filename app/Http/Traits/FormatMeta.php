@@ -99,14 +99,14 @@ trait FormatMeta
 
     public function metaStoreLogEvent()
     {
-        return [[
+        return [
             'status' => 'success',
             'statusCode' => 200,
             'data' => [
                 'status' => true,
                 'message' => 'Berhasil Mendaftar Event'
             ]
-        ],];
+        ];
     }
 
     public function metaEventHistory($data)
