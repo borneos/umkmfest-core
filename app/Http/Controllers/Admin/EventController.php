@@ -201,12 +201,12 @@ class EventController extends Controller
             $event->update(
                 ['attendance' => now()]
             );
+            return redirect()->back()->with('success', 'Berhasil Absen!');
         } else {
             $event->update(
                 ['attendance' => null]
             );
+            return redirect()->back()->with('success', 'Berhasil Batal Absen!');
         }
-
-        return redirect()->back()->with('success', 'Berhasil Absen!');
     }
 }
