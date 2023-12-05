@@ -34,12 +34,12 @@ trait Event
 
     public function queryEventNameSlug($id)
     {
-        $eventz = ModelsEvent::where('id', '=', $id)->first();
+        $eventGame = ModelsEvent::where('id', '=', $id)->first();
 
         return [
-            'id' => $eventz->id,
-            'name' => $eventz->name,
-            'slug' => $eventz->slug,
+            'id' => $eventGame->id,
+            'name' => $eventGame->name,
+            'slug' => $eventGame->slug,
         ];
     }
 

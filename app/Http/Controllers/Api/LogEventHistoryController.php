@@ -16,7 +16,7 @@ class LogEventHistoryController extends Controller
         $telp = $request->telp;
         $email = $request->email;
         $sort = $request->sort ?? 'desc';
-        $category = $request->category;
+        $category = $request->category ?? null;
 
         if ($telp || $email || $category) {
             $eventHistories = $this->queryEventHistoryList(compact('telp', 'email', 'category', 'sort'));

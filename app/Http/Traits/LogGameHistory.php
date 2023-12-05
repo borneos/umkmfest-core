@@ -6,7 +6,7 @@ use App\Models\LogGameHistory as ModelsLogGameHistory;
 
 trait LogGameHistory
 {
-    use Event;
+    use Event, Games;
 
     public function queryGameHistoryList($data)
     {
@@ -27,12 +27,17 @@ trait LogGameHistory
                 'events' => [
                     $this->queryEventNameSlug($result['id_event'])
                 ],
-                // 'name' => $result->name,
-                // 'telp' => $result->telp,
-                // 'email' => $result->email,
-                // 'checkinAt' => $result->checkin_at,
-                // 'createdAt' => $result->created_at,
-                // 'updateAt' => $result->update_at
+                'games' => [
+                    $this->queryGameHistory($result['id_game'])
+                ],
+                'name' => $result->name,
+                'telp' => $result->telp,
+                'email' => $result->email,
+                'playDate' => $result->play_date,
+                'winsAt' => $result->wins_at,
+                'completeAt' => $result->complete_at,
+                'createdAt' => $result->created_at,
+                'updateAt' => $result->update_at
             ];
         }
         return $results;
