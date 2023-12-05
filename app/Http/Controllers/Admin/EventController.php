@@ -35,7 +35,7 @@ class EventController extends Controller
             });
         }
 
-        $events = $eventQuery->paginate(1);
+        $events = $eventQuery->paginate(10);
         return view('admin.events', compact('events', 'sortColumn', 'sortDirection', 'searchParam'));
     }
 
@@ -206,7 +206,7 @@ class EventController extends Controller
             $event->update(
                 ['attendance' => null]
             );
-            return redirect()->back()->with('success', 'Berhasil Batal Absen!');
+            return redirect()->back()->with('error', 'Absen Dibatalkan!');
         }
     }
 }
