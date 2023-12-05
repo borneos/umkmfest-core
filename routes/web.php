@@ -40,6 +40,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('/admin/events/update', 'EventController@update')->name('events.update');
         Route::delete('/admin/events/delete/{id}', 'EventController@delete')->name('events.delete');
         Route::get('/admin/visitor', 'EventController@visitor')->name('events.visitor');
+        Route::get('/admin/visitor/attendance/{id}', 'EventController@visitorAttendance')->name('events.visitor.attendance');
         //Merchants
         Route::get('/admin/merchants', 'MerchantController@index')->name('merchants');
         Route::post('/admin/merchants/store', 'MerchantController@store')->name('merchants.store');

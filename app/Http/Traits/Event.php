@@ -32,6 +32,17 @@ trait Event
         return $event;
     }
 
+    public function queryEventNameSlug($id)
+    {
+        $event = ModelsEvent::where('id', '=', $id)->first();
+
+        return [
+            'id' => $event->id,
+            'name' => $event->name,
+            'slug' => $event->slug,
+        ];
+    }
+
     public function queryDetailEvent($data)
     {
         return ModelsEvent::where('slug', '=', $data['slug'])->first();

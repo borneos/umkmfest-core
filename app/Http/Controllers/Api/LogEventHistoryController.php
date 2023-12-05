@@ -7,7 +7,7 @@ use App\Http\Traits\FormatMeta;
 use App\Http\Traits\LogEventHistory;
 use Illuminate\Http\Request;
 
-class LogEventHistoriesController extends Controller
+class LogEventHistoryController extends Controller
 {
     use FormatMeta, LogEventHistory;
 

@@ -1,5 +1,9 @@
 @extends('layouts.app')
-@section('title', 'Visitor Event')
+@section('title')
+  {{-- <div id="titleEvent"> --}}
+  Visitor Event {{ $eventTitle->name ?? 'All Events' }}
+  {{-- </div> --}}
+@endsection
 @section('content')
   @php
     if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
@@ -10,7 +14,6 @@
     $url .= $_SERVER['HTTP_HOST'];
     $url .= $_SERVER['REQUEST_URI'];
   @endphp
-
   <section id="list">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -20,8 +23,9 @@
               <input type="hidden" name="sortColumn" value="{{ $sortColumn }}" />
               <input type="hidden" name="sortDirection" value="{{ $sortDirection }}" />
               <select name="event" id="event" class="select border border-gray-200 :outline-none">
+                <option disabled selected>Pilih Nama Event</option>
                 @foreach ($events as $event)
-                  <option value="{{ $event->id }}" {{ $event->id == request()->get('event') ? 'selected' : '' }}>{{ $event->name }}</option>
+                  <option value="{{ $event->id }}" data-doj="{{ $event->name }}" {{ $event->id == request()->get('event') ? 'selected' : '' }}>{{ $event->name }}</option>
                 @endforeach
               </select>
             </div>
@@ -47,6 +51,9 @@
                     </th>
                     <th>
                       <x-column-header dataRoute="admin.events" column-name="checkin_at" :sort-column="$sortColumn" :sortDirection="$sortDirection">Check In</x-column-header>
+                    </th>
+                    <th>
+                      Attendance
                     </th>
                   </tr>
                 </thead>
@@ -78,6 +85,11 @@
                       </td>
                       <td>
                         {{ $visitor->checkin_at }}
+                      </td>
+                      <td>
+                        <form action="{{ route('admin.events.visitor.attendance', $visitor->id) }}">
+                          <input type="checkbox" class="toggle" data-toggle="toggle" data-size="small" onChange="this.form.submit()" {{ $visitor->attendance ? 'checked' : '' }}>
+                        </form>
                       </td>
                     </tr>
                   @endforeach
