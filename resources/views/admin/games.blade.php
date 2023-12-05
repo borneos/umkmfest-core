@@ -27,65 +27,40 @@
           </form>
           <button class="btn btn-md btn-primary" onclick="modal_game.showModal()">Add</button>
         </div>
-        <div class="card bg-white rounded-lg">
-          <div class="card-body p-0">
-            <div class="overflow-x-auto">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th width="3%">
-                      <x-column-header dataRoute="admin.games" column-name="id" :sort-column="$sortColumn" :sortDirection="$sortDirection">#</x-column-header>
-                    </th>
-                    <th>
-                      <x-column-header dataRoute="admin.games" column-name="name" :sort-column="$sortColumn" :sortDirection="$sortDirection">Name</x-column-header>
-                    </th>
-                    <th>
-                      Description
-                    </th>
-                    <th width="100">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach ($games as $game)
-                    <tr>
-                      <td>{{ $game->id }}</td>
-                      <td>
-                        <div class="flex items-center space-x-3">
-                          <div class="avatar">
-                            <div class="mask mask-squircle w-9 h-9">
-                              @if ($game->image != '')
-                                <img src="{{ $game->image }}" alt="{{ $game->name }}">
-                              @else
-                                <img src="https://placehold.co/100x100" alt="blank" />
-                              @endif
-                            </div>
-                          </div>
-                          <div>
-                            <div class="font-bold">{{ $game->name }}</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        {{ Str::limit($game->description, 70, '...') }}
-                      </td>
-                      <td>
-                        <div class="flex items-center justify-end gap-2">
-                          <button onClick="handleEdit(`{{ $game->id }}`)" class="btn btn-sm btn-square btn-ghost">
-                            <x-bi-pencil-square class="w-4 h-4" />
-                          </button>
-                          <button onClick="handleDelete(`{{ $game->id }}`)" class="btn btn-sm btn-square btn-ghost">
-                            <x-bi-trash class="w-4 h-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  @endforeach
-                </tbody>
-              </table>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-10">
+          @foreach ($games as $game)
+            @php
+              $img = json_decode($game->image);
+            @endphp
+            <div class="card bg-base-100 shadow-xl">
+              <div class="flex">
+                <figure class="rounded-l-xl w-[130px] max-w-[130px]">
+                  @if ($game->image != '')
+                    <img src="{{ $game->image }}" alt="{{ $game->name }}">
+                  @else
+                    <img src="https://placehold.co/200x280" alt="blank" />
+                  @endif
+                </figure>
+                <div class="card-body p-4">
+                  <div class="card-actions justify-end">
+                    <a href="{{ route('admin.missions', $game->id) }}" class="btn btn-sm btn-square btn-ghost">
+                      <x-bi-list-task class="w-4 h-4" />
+                    </a>
+                    <button onClick="handleEdit('{{ $game->id }}')" class="btn btn-sm btn-square btn-ghost">
+                      <x-bi-pencil class="w-4 h-4" />
+                    </button>
+                    <button onClick="handleDelete('{{ $game->id }}')" class="btn btn-sm btn-square btn-ghost">
+                      <x-bi-trash3 class="w-4 h-4" />
+                    </button>
+                  </div>
+                  <h2 class="card-title">{{ $game->name }}</h2>
+                  <span class="text-gray-500 text-base">{{ $game->slug }} | {{ $game->code }}</span>
+                </div>
+              </div>
             </div>
-          </div>
+          @endforeach
         </div>
-        {{ $games->appends(['sortDirection' => request()->sortDirection, 'sortColumn' => request()->sortColumn, 'q' => request()->q])->onEachSide(5)->links() }}
       </div>
     </div>
   </section>
@@ -242,6 +217,60 @@
       <x-form-action type="update" route="/admin/games" />
     </form>
   </dialog>
+
+  <section id="listMission" hidden>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="flex justify-between items-center pb-6">
+          <form action="{{ route('admin.games', request()->query()) }}">
+            <div class="flex my-2">
+              <input type="hidden" name="sortColumn" value="{{ $sortColumn }}" />
+              <input type="hidden" name="sortDirection" value="{{ $sortDirection }}" />
+              <input type="text" name="q" placeholder="Search" class="py-2 px-2 text-md border border-gray-200 rounded-l focus:outline-none" value="{{ $searchParam }}" />
+              <button type="submit" class="btn btn-primary rounded-l-none">
+                <x-bi-search class="h-6 w-6" />
+              </button>
+            </div>
+          </form>
+          <button class="btn btn-md btn-primary" onclick="modal_game.showModal()">Add</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-10">
+          @foreach ($games as $game)
+            @php
+              $img = json_decode($game->image);
+            @endphp
+            <div class="card bg-base-100 shadow-xl">
+              <div class="flex">
+                <figure class="rounded-l-xl w-[130px] max-w-[130px]">
+                  @if ($game->image != '')
+                    <img src="{{ $game->image }}" alt="{{ $game->name }}">
+                  @else
+                    <img src="https://placehold.co/200x280" alt="blank" />
+                  @endif
+                </figure>
+                <div class="card-body p-4">
+                  <div class="card-actions justify-end">
+                    <button onClick="photogame('{{ $game->id }}')" class="btn btn-sm btn-square btn-ghost">
+                      <x-bi-list-task class="w-4 h-4" />
+                    </button>
+                    <button onClick="handleEdit('{{ $game->id }}')" class="btn btn-sm btn-square btn-ghost">
+                      <x-bi-pencil class="w-4 h-4" />
+                    </button>
+                    <button onClick="handleDelete('{{ $game->id }}')" class="btn btn-sm btn-square btn-ghost">
+                      <x-bi-trash3 class="w-4 h-4" />
+                    </button>
+                  </div>
+                  <h2 class="card-title">{{ $game->name }}</h2>
+                  <span class="text-gray-500 text-base">{{ $game->slug }} | {{ $game->code }}</span>
+                </div>
+              </div>
+            </div>
+          @endforeach
+        </div>
+      </div>
+    </div>
+  </section>
 
 @endsection
 

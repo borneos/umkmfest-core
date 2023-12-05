@@ -872,6 +872,12 @@ html {
 .card-body :where(p) {
   flex-grow: 1;
 }
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
 .card figure {
   display: flex;
   align-items: center;
@@ -1739,6 +1745,14 @@ html {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+}
 .card.image-full :where(figure) {
   overflow: hidden;
   border-radius: inherit;
@@ -2449,10 +2463,16 @@ html {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
+.card-compact .card-title {
+  margin-bottom: 0.25rem;
+}
 .card-normal .card-body {
   padding: var(--padding-card, 2rem);
   font-size: 1rem;
   line-height: 1.5rem;
+}
+.card-normal .card-title {
+  margin-bottom: 0.75rem;
 }
 .drawer-open > .drawer-toggle ~ .drawer-side > .drawer-overlay {
   cursor: default;
@@ -2665,6 +2685,9 @@ html {
 .w-9 {
   width: 2.25rem;
 }
+.w-\[130px\] {
+  width: 130px;
+}
 .w-auto {
   width: auto;
 }
@@ -2676,6 +2699,9 @@ html {
 }
 .max-w-6xl {
   max-width: 72rem;
+}
+.max-w-\[130px\] {
+  max-width: 130px;
 }
 .max-w-md {
   max-width: 28rem;
@@ -2718,6 +2744,9 @@ html {
 }
 .gap-2 {
   gap: 0.5rem;
+}
+.gap-6 {
+  gap: 1.5rem;
 }
 .space-x-3 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
@@ -2856,6 +2885,9 @@ html {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+.pb-10 {
+  padding-bottom: 2.5rem;
 }
 .pb-6 {
   padding-bottom: 1.5rem;
