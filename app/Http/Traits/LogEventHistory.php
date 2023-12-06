@@ -17,8 +17,8 @@ trait LogEventHistory
         $category = $data['category'];
 
         if ($category == null) {
-            return ModelsLogEventHistory::where('telp', '=', $telp)
-                ->where('email', '=', $email)
+            return ModelsLogEventHistory::orwhere('telp', '=', $telp)
+                ->orwhere('email', '=', $email)
                 ->orderBy('id', $sort)
                 ->get();
         } else {

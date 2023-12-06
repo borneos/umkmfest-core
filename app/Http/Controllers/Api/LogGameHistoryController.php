@@ -45,7 +45,7 @@ class LogGameHistoryController extends Controller
         $email = $request->email;
         $name = $request->name;
         $id_event = $request->id_event;
-        if ($telp || $email) {
+        if ($telp || $id_event) {
             $createGameHistory = $this->createGameHistory(compact('telp', 'email', 'name', 'id_event'));
             // $meta = $this->metaGameHistoryCreate([]);
             return response()->json(['data' => $createGameHistory]);
