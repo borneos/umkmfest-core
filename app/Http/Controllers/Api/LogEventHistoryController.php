@@ -19,10 +19,19 @@ class LogEventHistoryController extends Controller
 
         if ($telp || $category) {
             $eventHistories = $this->queryEventHistoryList(compact('telp', 'category', 'sort'));
-            $meta = $this->metaEventHistory([
-                'success' => true
-            ]);
-            return response()->json(['meta' => $meta, 'data' => $this->resultEventList($eventHistories)]);
+            $eventHistoriesCount = $eventHistories->count() ?? 0;
+            if ($eventHistoriesCount > 0) {
+                $meta = $this->metaEventHistory([
+                    'success' => true
+                ]);
+                return response()->json(['meta' => $meta, 'data' => $this->resultEventList($eventHistories)]);
+                // return response()->json(['meta' => $meta, 'data' => $eventHistories]);
+            } else {
+                $meta = $this->metaEventHistory([
+                    'success' => false
+                ]);
+                return response()->json(['meta' => $meta, 'data' => null]);
+            }
         } else {
             $meta = $this->metaEventHistory([
                 'success' => false
