@@ -39,7 +39,7 @@ class MissionController extends Controller
             'id_merchant' => 'required',
             'name' => 'required',
             'description' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:8192'
+            'image' => 'image|mimes:jpeg,png,jpg,svg|max:8192'
         ]);
 
         if ($request->file('image')) {
