@@ -56,6 +56,9 @@
                   </div>
                   <h2 class="card-title">{{ $game->name }}</h2>
                   <span class="text-gray-500 text-base">{{ $game->slug }} | {{ $game->code }}</span>
+                  <span class="text-gray-500 text-base">
+                    PIN : {{ $game->pin }}
+                  </span>
                 </div>
               </div>
             </div>

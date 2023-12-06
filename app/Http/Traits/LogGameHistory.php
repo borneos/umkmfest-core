@@ -31,7 +31,6 @@ trait LogGameHistory
 
         $logGameHistory = ModelsLogGameHistory::where('telp', '=', $telp)
             ->whereDate('play_date', '=', Carbon::today()->toDateString())->first();
-        // ->whereDate('play_date', '=', Carbon::now()->addDays(1))->first();
         if ($logGameHistory) {
             return null;
         } else {
@@ -48,10 +47,11 @@ trait LogGameHistory
 
             $missions = Mission::where('id_game', '=', $codeGame->id)->get();
             foreach ($missions as $mission) {
-                $id_merchant = $mission->id_merchant;
                 [
                     'id' => $mission->id,
-                    'merchants' => [$this->queryMerchantGame(compact('id_merchant'))],
+                    'merchants' => [
+                        $this->queryMerchantGame($mission['id_game'])
+                    ],
                     'name' => $mission->name,
                     'description' => $mission->description,
                     'image' => $mission->image,
@@ -66,7 +66,6 @@ trait LogGameHistory
                 'telp' => $telp,
                 'email' => $email ?? null,
                 'play_date' => now()
-                // 'play_date' => now()->addDays(1)
             ]);
             if ($createGame) {
                 return [
@@ -76,7 +75,7 @@ trait LogGameHistory
                     'code' => $codeGame['code'],
                     'pin' => $codeGame['pin'],
                     'description' => $codeGame['description'],
-                    'mission' => $mission,
+                    'mission' => $this->queryMerchantGame($mission['id_game']),
                     'image' => $codeGame['image'],
                     'imageAdditional' => $codeGame['imageAdditional'],
                     'status' => $codeGame['status'],
