@@ -15,11 +15,10 @@ class LogGameHistoryController extends Controller
     public function get_game_histories(Request $request)
     {
         $telp = $request->telp;
-        $email = $request->email;
         $sort = $request->sort ?? 'desc';
         $perPage = $request->perPage ?? 10;
-        if ($telp || $email) {
-            $gameHistories = $this->queryGameHistoryList(compact('telp', 'email', 'sort'));
+        if ($telp) {
+            $gameHistories = $this->queryGameHistoryList(compact('telp', 'sort'));
             $countGameHistories = $gameHistories->count();
             $meta = $this->metaGameHistory([
                 'page' => $request->page == null ? 1 : $request->page,
@@ -42,11 +41,10 @@ class LogGameHistoryController extends Controller
     public function create_game_history(Request $request)
     {
         $telp = $request->telp;
-        $email = $request->email;
         $name = $request->name;
         $id_event = $request->id_event;
         if ($telp || $id_event) {
-            $createGameHistory = $this->createGameHistory(compact('telp', 'email', 'name', 'id_event'));
+            $createGameHistory = $this->createGameHistory(compact('telp', 'name', 'id_event'));
             return response()->json(['data' => $createGameHistory]);
         }
     }

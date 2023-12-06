@@ -16,11 +16,9 @@ trait LogGameHistory
     public function queryGameHistoryList($data)
     {
         $telp = $data['telp'];
-        $email = $data['email'];
         $sort = $data['sort'];
 
-        return ModelsLogGameHistory::orwhere('telp', '=', $telp)
-            ->orwhere('email', '=', $email)
+        return ModelsLogGameHistory::where('telp', '=', $telp)
             ->orderBy('id', $sort)
             ->get();
     }
@@ -28,22 +26,26 @@ trait LogGameHistory
     public function createGameHistory($data)
     {
         $telp = $data['telp'];
-        $email = $data['email'];
         $id_event = $data['id_event'];
         $name = $data['name'];
 
         $logGameHistory = ModelsLogGameHistory::where('telp', '=', $telp)
             ->whereDate('play_date', '=', Carbon::today()->toDateString())->first();
+        // ->whereDate('play_date', '=', Carbon::now()->addDays(1))->first();
         if ($logGameHistory) {
             return null;
         } else {
-            $cekCodeGame = ModelsLogGameHistory::orwhere('telp', '=', $telp)
-                ->orwhere('email', '=', $email)->get();
-
-            foreach ($cekCodeGame as $datacek) {
-                $exCodeGame[] = $datacek['id_game'];
+            $cekCodeGame = ModelsLogGameHistory::where('telp', '=', $telp)->get();
+            $countCekCode = $cekCodeGame->count() ?? 1;
+            if ($countCekCode > 0) {
+                foreach ($cekCodeGame as $datacek) {
+                    $exCodeGame[] = $datacek['id_game'];
+                }
+                $codeGame = Game::inRandomOrder()->whereNotIn('id', $exCodeGame)->first();
+            } else {
+                $codeGame = Game::inRandomOrder()->first();
             }
-            $codeGame = Game::inRandomOrder()->whereNotIn('id', $exCodeGame)->first();
+
             $missions = Mission::where('id_game', '=', $codeGame->id)->get();
             foreach ($missions as $mission) {
                 $id_merchant = $mission->id_merchant;
@@ -53,8 +55,7 @@ trait LogGameHistory
                     'name' => $mission->name,
                     'description' => $mission->description,
                     'image' => $mission->image,
-                    'imageAdditional' => $mission->imageAdditional,
-
+                    'imageAdditional' => $mission->imageAdditional
                 ];
             }
 
@@ -65,6 +66,7 @@ trait LogGameHistory
                 'telp' => $telp,
                 'email' => $email ?? null,
                 'play_date' => now()
+                // 'play_date' => now()->addDays(1)
             ]);
             if ($createGame) {
                 return [
@@ -83,7 +85,6 @@ trait LogGameHistory
                 ];
             }
         }
-        // return $codeGame;
     }
 
     public function resultGameList($data)
@@ -98,7 +99,6 @@ trait LogGameHistory
                 ],
                 'name' => $result->name,
                 'telp' => $result->telp,
-                'email' => $result->email,
                 'playDate' => $result->play_date,
                 'winsAt' => $result->wins_at,
                 'completeAt' => $result->complete_at,
