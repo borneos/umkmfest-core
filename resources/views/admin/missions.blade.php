@@ -134,7 +134,7 @@
             <span class="label-text text-base-content undefined">Image</span>
           </label>
           <img id="missionPreview" class="rounded-md mx-auto" hidden>
-          <input name="image" id="image" type="file" accept="image/*" onchange="previewImageOnAdd()" class="file-input file-input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" required />
+          <input name="image" id="image" type="file" accept="image/*" onchange="previewImageOnAdd()" class="file-input file-input-bordered w-full {{ $errors->has('name') ? ' input-error' : '' }}" />
           @if ($errors->has('image'))
             <label class="label">
               <span class="label-text-alt text-error">{{ $errors->first('image') }}</span>
