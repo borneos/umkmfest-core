@@ -38,6 +38,19 @@ class LogGameHistoryController extends Controller
         }
     }
 
+    public function detail_game_histories($id)
+    {
+        $gameHistoriesDetail = $this->queryGameHistoryDetail($id);
+        $countGameHistories = $gameHistoriesDetail->count();
+        if ($countGameHistories > 0) {
+            $meta = $this->metaGameHistoryDetail(['success' => true]);
+            return response()->json(['meta' => $meta, 'data' => $this->resultGameDetail($gameHistoriesDetail)]);
+        } else {
+            $meta = $this->metaGameHistoryDetail(['success' => false]);
+            return response()->json(['meta' => $meta, 'data' => null]);
+        }
+    }
+
     public function create_game_history(Request $request)
     {
         $telp = $request->telp;

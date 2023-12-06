@@ -23,6 +23,12 @@ trait LogGameHistory
             ->get();
     }
 
+    public function queryGameHistoryDetail($id)
+    {
+        return ModelsLogGameHistory::where('id', '=', $id)
+            ->get();
+    }
+
     public function createGameHistory($data)
     {
         $telp = $data['telp'];
@@ -68,8 +74,11 @@ trait LogGameHistory
                 'play_date' => now()
             ]);
             if ($createGame) {
+
+                $logGame = ModelsLogGameHistory::where('telp', '=', $telp)->whereDate('play_date', '=', Carbon::today()->toDateString())->first();
                 return [
-                    'id' => $codeGame['id'],
+                    'id' => $logGame->id,
+                    'idGame' => $codeGame['id'],
                     'name' => $codeGame['name'],
                     'slug' => $codeGame['slug'],
                     'code' => $codeGame['code'],
@@ -87,6 +96,28 @@ trait LogGameHistory
     }
 
     public function resultGameList($data)
+    {
+        foreach ($data as $result) {
+            $results[] = [
+                'events' => [
+                    $this->queryEventNameSlug($result['id_event'])
+                ],
+                'games' => [
+                    $this->queryGameHistory($result['id_game'])
+                ],
+                'name' => $result->name,
+                'telp' => $result->telp,
+                'playDate' => $result->play_date,
+                'winsAt' => $result->wins_at,
+                'completeAt' => $result->complete_at,
+                'createdAt' => $result->created_at,
+                'updateAt' => $result->update_at
+            ];
+        }
+        return $results;
+    }
+
+    public function resultGameDetail($data)
     {
         foreach ($data as $result) {
             $results[] = [
