@@ -23,7 +23,6 @@ trait LogEventHistory
                 ->get();
         } else {
             return ModelsLogEventHistory::where('telp', '=', $telp)
-                ->where('email', '=', $email)
                 ->where('event_category', '=', $category)
                 ->orderBy('id', $sort)
                 ->get();
