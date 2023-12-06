@@ -22,9 +22,7 @@ trait Merchant
 
     public function queryMerchantGame($data)
     {
-        $merchantGame = ModelsMerchant::where('id', '=', $data['id_merchant'])->get();
-        $countMerchantGame = $merchantGame->count();
-        // return
+        return ModelsMerchant::where('id', '=', $data['id_merchant'])->get();
     }
 
     public function resultMerchantList($data)
