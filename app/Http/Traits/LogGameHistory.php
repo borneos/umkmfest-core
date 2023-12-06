@@ -2,14 +2,16 @@
 
 namespace App\Http\Traits;
 
+use App\Http\Traits\Merchant as TraitsMerchant;
 use App\Models\Game;
 use App\Models\LogGameHistory as ModelsLogGameHistory;
+use App\Models\Merchant;
 use App\Models\Mission;
 use Illuminate\Support\Carbon;
 
 trait LogGameHistory
 {
-    use Event, Games;
+    use Event, Games, TraitsMerchant;
 
     public function queryGameHistoryList($data)
     {
@@ -43,7 +45,14 @@ trait LogGameHistory
                 $exCodeGame[] = $datacek['id_game'];
             }
             $codeGame = Game::inRandomOrder()->whereNotIn('id', $exCodeGame)->first();
-            $mission = Mission::where('id_game', '=', $codeGame->id)->get();
+            $missions = Mission::where('id_game', '=', $codeGame->id)->get();
+            // $merchant = Merchant::where('id','=',);
+            foreach ($missions as $mission) {
+                [
+                    'id' => $mission->id,
+                    'merchants' => $this->QueryMer
+                ];
+            }
 
             $createGame = ModelsLogGameHistory::create([
                 'id_event' => $id_event,
