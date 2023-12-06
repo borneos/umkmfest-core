@@ -53,7 +53,6 @@ class EventController extends Controller
     public function store_log_events(Request $request)
     {
         $cekEvent = LogEventHistory::where('event_id', '=', $request->eventId)
-            ->orwhere('email', '=', $request['email'])
             ->orwhere('telp', '=', $request['telp'])
             ->first();
 
@@ -67,8 +66,7 @@ class EventController extends Controller
                     'event_category' => $event->category,
                     'event_date' => $event->date,
                     'name' => $request->name,
-                    'telp' => $request->telp,
-                    'email' => $request->email
+                    'telp' => $request->telp
                 ]);
                 return response()->json($this->metaStoreLogEvent());
             }
