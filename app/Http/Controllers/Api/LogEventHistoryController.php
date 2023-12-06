@@ -25,7 +25,6 @@ class LogEventHistoryController extends Controller
                     'success' => true
                 ]);
                 return response()->json(['meta' => $meta, 'data' => $this->resultEventList($eventHistories)]);
-                // return response()->json(['meta' => $meta, 'data' => $eventHistories]);
             } else {
                 $meta = $this->metaEventHistory([
                     'success' => false

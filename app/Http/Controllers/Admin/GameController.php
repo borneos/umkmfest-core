@@ -42,7 +42,7 @@ class GameController extends Controller
             'code' => 'required',
             'pin' => 'required',
             'description' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:8192'
+            'image' => 'image|mimes:jpeg,png,jpg,svg|max:8192'
         ]);
 
         if ($request->file('image')) {
