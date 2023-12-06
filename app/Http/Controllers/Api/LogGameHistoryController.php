@@ -100,7 +100,8 @@ class LogGameHistoryController extends Controller
                 'id_game_history' => $logHistory->id,
                 'id_mission' => $redeem->id,
                 'name' => $name,
-                'telp' => $telp
+                'telp' => $telp,
+                'completed_at' => now()
             ]);
             $meta = [
                 "status" => "success",
@@ -121,9 +122,8 @@ class LogGameHistoryController extends Controller
         $logGame = ModelsLogGameHistory::find($id);
         $game = Game::where('id', '=', $logGame->id_game)->where('pin', '=', $pinToken)->first();
         if ($game) {
-            $logGameDetail = LogGameHistoryDetail::where('id_game_history', '=', $logGame->id)->first();
-            $logGameDetail->completed_at = now();
-            $logGameDetail->save();
+            $logGame->complete_at = now();
+            $logGame->save();
 
             $meta = [
                 "status" => "success",
