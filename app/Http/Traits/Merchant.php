@@ -20,6 +20,11 @@ trait Merchant
         return ModelsMerchant::where('slug', '=', $data['slug'])->first();
     }
 
+    public function queryMerchantGame($data)
+    {
+        return ModelsMerchant::where('id', '=', $data['id'])->first();
+    }
+
     public function resultMerchantList($data)
     {
         foreach ($data as $result) {
