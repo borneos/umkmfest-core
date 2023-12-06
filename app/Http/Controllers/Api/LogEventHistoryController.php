@@ -14,12 +14,11 @@ class LogEventHistoryController extends Controller
     public function get_event_histories(Request $request)
     {
         $telp = $request->telp;
-        $email = $request->email;
         $sort = $request->sort ?? 'desc';
         $category = $request->category ?? null;
 
-        if ($telp || $email || $category) {
-            $eventHistories = $this->queryEventHistoryList(compact('telp', 'email', 'category', 'sort'));
+        if ($telp || $category) {
+            $eventHistories = $this->queryEventHistoryList(compact('telp', 'category', 'sort'));
             $meta = $this->metaEventHistory([
                 'success' => true
             ]);

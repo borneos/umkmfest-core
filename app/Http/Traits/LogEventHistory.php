@@ -12,16 +12,15 @@ trait LogEventHistory
     public function queryEventHistoryList($data)
     {
         $telp = $data['telp'];
-        $email = $data['email'];
         $sort = $data['sort'];
         $category = $data['category'];
 
         if ($category == null) {
-            return ModelsLogEventHistory::where('telp', '=', '%' . $telp . '%')
+            return ModelsLogEventHistory::where('telp', '=', $telp)
                 ->orderBy('id', $sort)
                 ->get();
         } else {
-            return ModelsLogEventHistory::where('telp', '=', '%' . $telp . '%')
+            return ModelsLogEventHistory::where('telp', '=', $telp)
                 ->where('event_category', '=', $category)
                 ->orderBy('id', $sort)
                 ->get();
