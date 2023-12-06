@@ -74,8 +74,11 @@ trait LogGameHistory
                 'play_date' => now()
             ]);
             if ($createGame) {
+
+                $logGame = ModelsLogGameHistory::where('telp', '=', $telp)->whereDate('play_date', '=', Carbon::today()->toDateString())->first();
                 return [
-                    'id' => $codeGame['id'],
+                    'id' => $logGame->id,
+                    'idGame' => $codeGame['id'],
                     'name' => $codeGame['name'],
                     'slug' => $codeGame['slug'],
                     'code' => $codeGame['code'],
