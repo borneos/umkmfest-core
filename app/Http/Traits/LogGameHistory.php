@@ -121,6 +121,7 @@ trait LogGameHistory
     public function resultGameDetail($data)
     {
         foreach ($data as $result) {
+            $mission = Mission::where('id_game', '=', $result->id_game)->first();
             $results[] = [
                 'id' => $result->id,
                 'events' => [
@@ -129,6 +130,7 @@ trait LogGameHistory
                 'games' => [
                     $this->queryGameHistory($result['id_game'])
                 ],
+                'mission' => [$this->queryMerchantGame($mission['id_game'])],
                 'name' => $result->name,
                 'telp' => $result->telp,
                 'playDate' => $result->play_date,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\FormatMeta;
 use App\Http\Traits\LogGameHistory;
+use App\Models\Game;
 use App\Models\LogGameHistory as ModelsLogGameHistory;
 use App\Models\LogGameHistoryDetail;
 use App\Models\Mission;
@@ -99,8 +100,7 @@ class LogGameHistoryController extends Controller
                 'id_game_history' => $logHistory->id,
                 'id_mission' => $redeem->id,
                 'name' => $name,
-                'telp' => $telp,
-                'completed_at' => now()
+                'telp' => $telp
             ]);
             $meta = [
                 "status" => "success",
@@ -109,5 +109,35 @@ class LogGameHistoryController extends Controller
             ];
         }
         return response()->json(['meta' => $meta, 'data' => null]);
+    }
+
+    public function complete_game(Request $request, $id)
+    {
+        $pinToken = $request->pinToken;
+        $id = $request->id;
+        $name = $request->name;
+        $telp = $request->telp;
+
+        $logGame = ModelsLogGameHistory::find($id);
+        $game = Game::where('id', '=', $logGame->id_game)->where('pin', '=', $pinToken)->first();
+        if ($game) {
+            $logGameDetail = LogGameHistoryDetail::where('id_game_history', '=', $logGame->id)->first();
+            $logGameDetail->completed_at = now();
+            $logGameDetail->save();
+
+            $meta = [
+                "status" => "success",
+                "statusCode" => 200,
+                "statusMessage" => "Berhasil dan selesai games",
+            ];
+        } else {
+
+            $meta = [
+                "status" => "error",
+                "statusCode" => 500,
+                "statusMessage" => "Gagal mendapatkan data, server mengalami gangguan"
+            ];
+        }
+        return response()->json($meta);
     }
 }
