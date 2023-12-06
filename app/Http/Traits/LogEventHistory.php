@@ -17,13 +17,12 @@ trait LogEventHistory
         $category = $data['category'];
 
         if ($category == null) {
-            return ModelsLogEventHistory::orwhere('telp', '=', $telp)
-                ->orwhere('email', '=', $email)
+            return ModelsLogEventHistory::where('telp', '=', '%' . $telp . '%')
                 ->orderBy('id', $sort)
                 ->get();
         } else {
-            return ModelsLogEventHistory::orwhere('telp', '=', $telp)
-                ->orwhere('event_category', '=', $category)
+            return ModelsLogEventHistory::where('telp', '=', '%' . $telp . '%')
+                ->where('event_category', '=', $category)
                 ->orderBy('id', $sort)
                 ->get();
         }

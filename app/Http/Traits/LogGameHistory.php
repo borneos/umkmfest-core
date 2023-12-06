@@ -32,8 +32,7 @@ trait LogGameHistory
         $id_event = $data['id_event'];
         $name = $data['name'];
 
-        $logGameHistory = ModelsLogGameHistory::orwhere('telp', '=', $telp)
-            ->orwhere('email', '=', $email)
+        $logGameHistory = ModelsLogGameHistory::where('telp', '=', $telp)
             ->whereDate('play_date', '=', Carbon::today()->toDateString())->first();
         if ($logGameHistory) {
             return null;
@@ -46,24 +45,29 @@ trait LogGameHistory
             }
             $codeGame = Game::inRandomOrder()->whereNotIn('id', $exCodeGame)->first();
             $missions = Mission::where('id_game', '=', $codeGame->id)->get();
-            // $merchant = Merchant::where('id','=',);
             foreach ($missions as $mission) {
+                $id_merchant = $mission->id_merchant;
                 [
                     'id' => $mission->id,
-                    'merchants' => $this->QueryMer
+                    'merchants' => [$this->queryMerchantGame(compact('id_merchant'))],
+                    'name' => $mission->name,
+                    'description' => $mission->description,
+                    'image' => $mission->image,
+                    'imageAdditional' => $mission->imageAdditional,
+
                 ];
             }
 
             $createGame = ModelsLogGameHistory::create([
                 'id_event' => $id_event,
-                'id_game' => $codeGame,
+                'id_game' => $codeGame->id,
                 'name' => $name,
                 'telp' => $telp,
                 'email' => $email ?? null,
                 'play_date' => now()
             ]);
             if ($createGame) {
-                return response()->json([
+                return [
                     'id' => $codeGame['id'],
                     'name' => $codeGame['name'],
                     'slug' => $codeGame['slug'],
@@ -71,10 +75,15 @@ trait LogGameHistory
                     'pin' => $codeGame['pin'],
                     'description' => $codeGame['description'],
                     'mission' => $mission,
-                ]);
+                    'image' => $codeGame['image'],
+                    'imageAdditional' => $codeGame['imageAdditional'],
+                    'status' => $codeGame['status'],
+                    'createdAt' => $codeGame['create_at'],
+                    'updatedAt' => $codeGame['update_at'],
+                ];
             }
         }
-        return $mission;
+        // return $codeGame;
     }
 
     public function resultGameList($data)
