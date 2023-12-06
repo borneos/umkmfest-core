@@ -74,7 +74,7 @@ class EventController extends Controller
             return response()->json([
                 'status' => 'error',
                 'statusCode' => 400,
-                'statusMessage' => 'Gagal mendaftar, Email atau No Telepon telah digunakan!!!'
+                'statusMessage' => 'Gagal mendaftar, No Telepon telah digunakan!!!'
             ]);
         }
     }

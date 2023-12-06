@@ -44,7 +44,7 @@ Route::group(['namespace' => 'Api'], function () {
     });
     Route::group(['prefix' => 'games'], function () {
         Route::get('/create', 'LogGameHistoryController@create_game_history');
-        Route::get('/{slug}', 'LogGameHistoryController@detail_game_history');
         Route::post('/reedem', 'LogGameHistoryController@redeem_game');
+        Route::put('/complete/{id}', 'LogGameHistoryController@complete_game');
     });
 });
