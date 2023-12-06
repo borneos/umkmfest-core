@@ -52,6 +52,7 @@ trait Event
     {
         foreach ($data as $result) {
             $results[] = [
+                'id' => $result->id,
                 'name' => $result->name,
                 'category' => $result->category,
                 'slug' => $result->slug,
