@@ -99,6 +99,7 @@ trait LogGameHistory
     {
         foreach ($data as $result) {
             $results[] = [
+                'id' => $result->id,
                 'events' => [
                     $this->queryEventNameSlug($result['id_event'])
                 ],
@@ -121,6 +122,7 @@ trait LogGameHistory
     {
         foreach ($data as $result) {
             $results[] = [
+                'id' => $result->id,
                 'events' => [
                     $this->queryEventNameSlug($result['id_event'])
                 ],

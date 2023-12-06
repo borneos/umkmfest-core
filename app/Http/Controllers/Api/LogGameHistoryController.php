@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Traits\FormatMeta;
 use App\Http\Traits\LogGameHistory;
 use App\Models\LogGameHistory as ModelsLogGameHistory;
+use App\Models\LogGameHistoryDetail;
+use App\Models\Mission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class LogGameHistoryController extends Controller
 {
@@ -69,5 +72,42 @@ class LogGameHistoryController extends Controller
             }
             return response()->json(['meta' => $meta, 'data' => $createGameHistory]);
         }
+    }
+
+    public function redeem_game(Request $request)
+    {
+        $id_game = $request->idGame;
+        $name = $request->name;
+        $telp = $request->telp;
+        $id_merchant = $request->idMerchant;
+
+        $redeem = Mission::where('id_game', '=', $id_game)
+            ->where('id_merchant', '=', $id_merchant)->first();
+        $logGameDetail = LogGameHistoryDetail::where('id_mission', '=', $redeem->id)
+            ->where('telp', '=', $telp)
+            ->get();
+        $countLogGameDetail = $logGameDetail->count() ?? 0;
+        $logHistory = ModelsLogGameHistory::where('telp', '=', $telp)->whereDate('play_date', '=', Carbon::today()->toDateString())->first();
+        if ($countLogGameDetail > 0) {
+            $meta = [
+                "status" => "error",
+                "statusCode" => 500,
+                "statusMessage" => "Gagal mendapatkan data, server mengalami gangguan"
+            ];
+        } else {
+            $logCreate = LogGameHistoryDetail::create([
+                'id_game_history' => $logHistory->id,
+                'id_mission' => $redeem->id,
+                'name' => $name,
+                'telp' => $telp,
+                'completed_at' => now()
+            ]);
+            $meta = [
+                "status" => "success",
+                "statusCode" => 200,
+                "statusMessage" => "Berhasil redeem booth"
+            ];
+        }
+        return response()->json(['meta' => $meta, 'data' => null]);
     }
 }

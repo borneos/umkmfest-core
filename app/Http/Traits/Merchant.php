@@ -41,6 +41,7 @@ trait Merchant
     {
         foreach ($data as $result) {
             $results[] = [
+                'id' => $result->id,
                 'name' => $result->name,
                 'slug' => $result->slug,
                 'description' => $result->description,
@@ -57,6 +58,7 @@ trait Merchant
     public function resultMerchantDetail($data)
     {
         $results[] = [
+            'id' => $data->id,
             'name' => $data->name,
             'slug' => $data->slug,
             'description' => $data->description,
