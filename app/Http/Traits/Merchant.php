@@ -3,6 +3,7 @@
 namespace App\Http\Traits;
 
 use App\Models\Merchant as ModelsMerchant;
+use App\Models\Mission;
 
 trait Merchant
 {
@@ -20,9 +21,20 @@ trait Merchant
         return ModelsMerchant::where('slug', '=', $data['slug'])->first();
     }
 
-    public function queryMerchantGame($data)
+    public function queryMerchantGame($id)
     {
-        return ModelsMerchant::where('id', '=', $data['id_merchant'])->get();
+        $missions = Mission::where('id_game', '=', $id)->get();
+        foreach ($missions as $mission) {
+            $dataResult[] = [
+                'id' => $mission->id,
+                'merchants' => $mission->id_merchant,
+                'name' => $mission->name,
+                'description' => $mission->description,
+                'image' => $mission->image,
+                'imageAdditional' => $mission->image_additional,
+            ];
+        }
+        return $dataResult;
     }
 
     public function resultMerchantList($data)
