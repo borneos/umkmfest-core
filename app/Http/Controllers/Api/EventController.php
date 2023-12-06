@@ -53,8 +53,8 @@ class EventController extends Controller
     public function store_log_events(Request $request)
     {
         $cekEvent = LogEventHistory::where('event_id', '=', $request->eventId)
-            ->where('email', '=', $request['email'])
-            ->where('telp', '=', $request['telp'])
+            ->orwhere('email', '=', $request['email'])
+            ->orwhere('telp', '=', $request['telp'])
             ->first();
 
         if (!$cekEvent) {

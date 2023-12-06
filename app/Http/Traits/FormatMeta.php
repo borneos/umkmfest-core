@@ -136,4 +136,21 @@ trait FormatMeta
             ],
         ];
     }
+    public function metaGameHistoryCreate($data)
+    {
+        if ($data['countGameHistories'] != 0) {
+            $paginate = [
+                'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                'perPage' => (int)$data['perPage'],
+            ];
+        }
+        return [
+            [
+                'status' => $data['countGameHistories'] == 0 ? 'error' : 'success',
+                'statusCode' => $data['countGameHistories'] == 0 ? 500 : 200,
+                'statusMessage' => $data['countGameHistories'] == 0 ? 'Gagal mendapatkan data, server mengalami gangguan' : 'Berhasil medapatkan data log game histories',
+                'pagination' => $paginate ?? null
+            ],
+        ];
+    }
 }
