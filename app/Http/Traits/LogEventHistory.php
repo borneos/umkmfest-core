@@ -22,8 +22,8 @@ trait LogEventHistory
                 ->orderBy('id', $sort)
                 ->get();
         } else {
-            return ModelsLogEventHistory::where('telp', '=', $telp)
-                ->where('event_category', '=', $category)
+            return ModelsLogEventHistory::orwhere('telp', '=', $telp)
+                ->orwhere('event_category', '=', $category)
                 ->orderBy('id', $sort)
                 ->get();
         }
