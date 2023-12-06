@@ -2,7 +2,10 @@
 
 namespace App\Http\Traits;
 
+use App\Models\Game;
 use App\Models\LogGameHistory as ModelsLogGameHistory;
+use App\Models\Mission;
+use Illuminate\Support\Carbon;
 
 trait LogGameHistory
 {
@@ -18,6 +21,51 @@ trait LogGameHistory
             ->where('email', '=', $email)
             ->orderBy('id', $sort)
             ->get();
+    }
+
+    public function createGameHistory($data)
+    {
+        $telp = $data['telp'];
+        $email = $data['email'];
+        $id_event = $data['id_event'];
+        $name = $data['name'];
+
+        $logGameHistory = ModelsLogGameHistory::where('telp', '=', $telp)
+            ->orwhere('email', '=', $email)
+            ->whereDate('play_date', '=', Carbon::today()->toDateString())->first();
+        if ($logGameHistory) {
+            return null;
+        } else {
+            $cekCodeGame = ModelsLogGameHistory::orwhere('telp', '=', $telp)
+                ->orwhere('email', '=', $email)->get();
+
+            foreach ($cekCodeGame as $datacek) {
+                $exCodeGame[] = $datacek['id_game'];
+            }
+            $codeGame = Game::inRandomOrder()->whereNotIn('id', $exCodeGame)->first();
+            $mission = Mission::where('id_game', '=', $codeGame->id)->get();
+
+            // $createGame = ModelsLogGameHistory::create([
+            //     'id_event' => $id_event,
+            //     'id_game' => $codeGame,
+            //     'name' => $name,
+            //     'telp' => $telp,
+            //     'email' => $email ?? null,
+            //     'play_date' => now()
+            // ]);
+            // if ($createGame) {
+            //     return response()->json([
+            //         'id' => $codeGame['id'],
+            //         'name' => $codeGame['name'],
+            //         'slug' => $codeGame['slug'],
+            //         'code' => $codeGame['code'],
+            //         'pin' => $codeGame['pin'],
+            //         'description' => $codeGame['description'],
+            //         'mission' => [],
+            //     ]);
+            // }
+        }
+        return $mission;
     }
 
     public function resultGameList($data)
