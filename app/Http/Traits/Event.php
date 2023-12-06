@@ -78,6 +78,7 @@ trait Event
     public function resultEventDetail($data)
     {
         $results[] = [
+            'id' => $data->id,
             'name' => $data->name,
             'category' => $data->category,
             'slug' => $data->slug,

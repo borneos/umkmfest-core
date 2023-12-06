@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Traits\Event;
+use App\Http\Traits\Event as TraitsEvent;
 use App\Http\Traits\FormatMeta;
 use App\Models\Event as ModelsEvent;
 use App\Models\LogEventHistory;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
-    use Event, FormatMeta;
+    use TraitsEvent, FormatMeta;
 
     public function get_events(Request $request)
     {
