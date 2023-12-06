@@ -19,8 +19,9 @@ class MissionController extends Controller
         $arrayMerchants[] = '';
         $game = Game::where('id', '=', $id)->first();
         $missions = Mission::where('id_game', '=', $id)->get();
+        $missionsAll = Mission::all();
         $merchantsEdit = Merchant::all();
-        foreach ($missions as $mission) {
+        foreach ($missionsAll as $mission) {
             $arrayMerchants[] = $mission->id_merchant;
         }
         if ($arrayMerchants == '') {
