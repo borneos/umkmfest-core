@@ -17,8 +17,8 @@ trait LogGameHistory
         $email = $data['email'];
         $sort = $data['sort'];
 
-        return ModelsLogGameHistory::where('telp', '=', $telp)
-            ->where('email', '=', $email)
+        return ModelsLogGameHistory::orwhere('telp', '=', $telp)
+            ->orwhere('email', '=', $email)
             ->orderBy('id', $sort)
             ->get();
     }
@@ -30,7 +30,7 @@ trait LogGameHistory
         $id_event = $data['id_event'];
         $name = $data['name'];
 
-        $logGameHistory = ModelsLogGameHistory::where('telp', '=', $telp)
+        $logGameHistory = ModelsLogGameHistory::orwhere('telp', '=', $telp)
             ->orwhere('email', '=', $email)
             ->whereDate('play_date', '=', Carbon::today()->toDateString())->first();
         if ($logGameHistory) {
@@ -45,25 +45,25 @@ trait LogGameHistory
             $codeGame = Game::inRandomOrder()->whereNotIn('id', $exCodeGame)->first();
             $mission = Mission::where('id_game', '=', $codeGame->id)->get();
 
-            // $createGame = ModelsLogGameHistory::create([
-            //     'id_event' => $id_event,
-            //     'id_game' => $codeGame,
-            //     'name' => $name,
-            //     'telp' => $telp,
-            //     'email' => $email ?? null,
-            //     'play_date' => now()
-            // ]);
-            // if ($createGame) {
-            //     return response()->json([
-            //         'id' => $codeGame['id'],
-            //         'name' => $codeGame['name'],
-            //         'slug' => $codeGame['slug'],
-            //         'code' => $codeGame['code'],
-            //         'pin' => $codeGame['pin'],
-            //         'description' => $codeGame['description'],
-            //         'mission' => [],
-            //     ]);
-            // }
+            $createGame = ModelsLogGameHistory::create([
+                'id_event' => $id_event,
+                'id_game' => $codeGame,
+                'name' => $name,
+                'telp' => $telp,
+                'email' => $email ?? null,
+                'play_date' => now()
+            ]);
+            if ($createGame) {
+                return response()->json([
+                    'id' => $codeGame['id'],
+                    'name' => $codeGame['name'],
+                    'slug' => $codeGame['slug'],
+                    'code' => $codeGame['code'],
+                    'pin' => $codeGame['pin'],
+                    'description' => $codeGame['description'],
+                    'mission' => $mission,
+                ]);
+            }
         }
         return $mission;
     }
