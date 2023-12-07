@@ -115,7 +115,7 @@ class LogGameHistoryController extends Controller
     public function complete_game(Request $request, $id)
     {
         $pinToken = $request->pinToken;
-        $id = $request->id;
+        // $id = $request->id;
         $name = $request->name;
         $telp = $request->telp;
 
