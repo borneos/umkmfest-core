@@ -172,16 +172,16 @@
     },
     {
       id: 9,
-      name: "visitor games",
+      name: "visitorgame",
       label: "Visitor Games",
-      link: "",
+      link: "/admin/visitorgame?sortDirection=desc&sortColumn=id",
       isLabel: false,
     },
     {
       id: 10,
-      name: "visitor game wins",
+      name: "visitorgamewins",
       label: "Visitor Game Wins",
-      link: "",
+      link: "/admin/visitorgamewins?sortDirection=desc&sortColumn=id",
       isLabel: false,
     }
   ];
