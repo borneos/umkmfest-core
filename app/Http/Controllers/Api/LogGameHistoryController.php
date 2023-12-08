@@ -88,7 +88,7 @@ class LogGameHistoryController extends Controller
             ->where('telp', '=', $telp)
             ->get();
         $countLogGameDetail = $logGameDetail->count() ?? 0;
-        $logHistory = ModelsLogGameHistory::where('telp', '=', $telp)->whereDate('play_date', '=', Carbon::today()->toDateString())->first();
+        $logHistory = ModelsLogGameHistory::where('telp', '=', $telp)->whereDate('play_date', '=', now()->toDateString())->first();
         if ($countLogGameDetail > 0) {
             $meta = [
                 "status" => "error",
@@ -115,7 +115,6 @@ class LogGameHistoryController extends Controller
     public function complete_game(Request $request, $id)
     {
         $pinToken = $request->pinToken;
-        // $id = $request->id;
         $name = $request->name;
         $telp = $request->telp;
 
