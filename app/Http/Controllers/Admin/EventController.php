@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Traits\CloudinaryImage;
 use App\Models\Event;
 use App\Models\LogEventHistory;
+use App\Models\LogGameHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -191,6 +192,55 @@ class EventController extends Controller
 
         $visitors = $visitorQuery->paginate(10);
         return view('admin.visitor-event', compact('visitors', 'sortColumn', 'sortDirection', 'searchParam', 'events', 'eventTitle'));
+    }
+
+    public function visitorgame(Request $request)
+    {
+        $visitorQuery = LogGameHistory::query();
+        $sortColumn = $request->query('sortColumn');
+        $sortDirection = $request->query('sortDirection');
+        $searchParam = $request->query('event');
+        $events = Event::where('category', '=', 'regular')->get();
+        $eventTitle = Event::where('id', '=', $searchParam)->first();
+
+        if ($sortColumn && $sortDirection) {
+            $visitorQuery->orderBy($sortColumn, $sortDirection ?: 'asc');
+        }
+
+        if ($searchParam) {
+            $visitorQuery = $visitorQuery->where(function ($query) use ($searchParam) {
+                $query
+                    ->orWhere('id_event', 'like', "%$searchParam%");
+            });
+        }
+
+        $visitors = $visitorQuery->paginate(10);
+        return view('admin.visitor-event-game', compact('visitors', 'sortColumn', 'sortDirection', 'searchParam', 'events', 'eventTitle'));
+    }
+
+    public function visitorgameWins(Request $request)
+    {
+        $visitorQuery = LogGameHistory::query();
+        $sortColumn = $request->query('sortColumn');
+        $sortDirection = $request->query('sortDirection');
+        $searchParam = $request->query('event');
+        $events = Event::where('category', '=', 'regular')->get();
+        $eventTitle = Event::where('id', '=', $searchParam)->first();
+
+        if ($sortColumn && $sortDirection) {
+            $visitorQuery->where('complete_at', '!=', Null)->orderBy($sortColumn, $sortDirection ?: 'asc');
+        }
+
+        if ($searchParam) {
+            $visitorQuery = $visitorQuery->where(function ($query) use ($searchParam) {
+                $query
+                    ->where('complete_at', '!=', Null)
+                    ->Where('id_event', 'like', "%$searchParam%");
+            });
+        }
+
+        $visitors = $visitorQuery->paginate(10);
+        return view('admin.visitor-event-game-wins', compact('visitors', 'sortColumn', 'sortDirection', 'searchParam', 'events', 'eventTitle'));
     }
 
     public function visitorAttendance($id)

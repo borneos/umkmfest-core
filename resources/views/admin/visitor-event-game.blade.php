@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title')
   {{-- <div id="titleEvent"> --}}
-  Visitor Event {{ $eventTitle->name ?? 'All Events' }} ({{ $visitors->count() ?? 0 }})
+  Visitor Game {{ $eventTitle->name ?? 'All Events' }} ({{ $visitors->count() ?? 0 }})
   {{-- </div> --}}
 @endsection
 @section('content')
@@ -18,7 +18,7 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="flex justify-between items-center pb-6">
-          <form id="search" action="{{ route('admin.events.visitor', request()->query()) }}">
+          <form id="search" action="{{ route('admin.events.visitor.game', request()->query()) }}">
             <div class="flex my-2">
               <input type="hidden" name="sortColumn" value="{{ $sortColumn }}" />
               <input type="hidden" name="sortDirection" value="{{ $sortDirection }}" />
@@ -38,22 +38,19 @@
                 <thead>
                   <tr>
                     <th width="3%">
-                      <x-column-header dataRoute="admin.events" column-name="id" :sort-column="$sortColumn" :sortDirection="$sortDirection">#</x-column-header>
+                      <x-column-header dataRoute="admin.events.visitor.game" column-name="id" :sort-column="$sortColumn" :sortDirection="$sortDirection">#</x-column-header>
                     </th>
                     <th>
-                      <x-column-header dataRoute="admin.events" column-name="name" :sort-column="$sortColumn" :sortDirection="$sortDirection">Name</x-column-header>
+                      <x-column-header dataRoute="admin.events.visitor.game" column-name="name" :sort-column="$sortColumn" :sortDirection="$sortDirection">Name</x-column-header>
                     </th>
                     <th>
-                      <x-column-header dataRoute="admin.events" column-name="telp" :sort-column="$sortColumn" :sortDirection="$sortDirection">Telepon</x-column-header>
+                      <x-column-header dataRoute="admin.events.visitor.game" column-name="telp" :sort-column="$sortColumn" :sortDirection="$sortDirection">Telepon</x-column-header>
                     </th>
                     <th>
-                      <x-column-header dataRoute="admin.events" column-name="email" :sort-column="$sortColumn" :sortDirection="$sortDirection">Email</x-column-header>
+                      <x-column-header dataRoute="admin.events.visitor.game" column-name="email" :sort-column="$sortColumn" :sortDirection="$sortDirection">Email</x-column-header>
                     </th>
                     <th>
-                      <x-column-header dataRoute="admin.events" column-name="checkin_at" :sort-column="$sortColumn" :sortDirection="$sortDirection">Check In</x-column-header>
-                    </th>
-                    <th>
-                      Attendance
+                      <x-column-header dataRoute="admin.events.visitor.game" column-name="play_date" :sort-column="$sortColumn" :sortDirection="$sortDirection">Play Date</x-column-header>
                     </th>
                   </tr>
                 </thead>
@@ -84,12 +81,7 @@
                         {{ $visitor->email }}
                       </td>
                       <td>
-                        {{ $visitor->checkin_at }}
-                      </td>
-                      <td>
-                        <form action="{{ route('admin.events.visitor.attendance', $visitor->id) }}">
-                          <input type="checkbox" class="toggle" data-toggle="toggle" data-size="small" onChange="this.form.submit()" {{ $visitor->attendance ? 'checked' : '' }}>
-                        </form>
+                        {{ $visitor->play_date }}
                       </td>
                     </tr>
                   @endforeach
