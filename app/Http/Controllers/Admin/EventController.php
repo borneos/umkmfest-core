@@ -173,6 +173,7 @@ class EventController extends Controller
     public function visitor(Request $request)
     {
         $visitorQuery = LogEventHistory::query();
+        $visitorTotal = LogEventHistory::all()->count() ?? 0;
         $sortColumn = $request->query('sortColumn');
         $sortDirection = $request->query('sortDirection');
         $searchParam = $request->query('event');
@@ -191,12 +192,13 @@ class EventController extends Controller
         }
 
         $visitors = $visitorQuery->paginate(10);
-        return view('admin.visitor-event', compact('visitors', 'sortColumn', 'sortDirection', 'searchParam', 'events', 'eventTitle'));
+        return view('admin.visitor-event', compact('visitors', 'sortColumn', 'sortDirection', 'searchParam', 'events', 'eventTitle', 'visitorTotal'));
     }
 
     public function visitorgame(Request $request)
     {
         $visitorQuery = LogGameHistory::query();
+        $visitorTotal = LogGameHistory::all()->count() ?? 0;
         $sortColumn = $request->query('sortColumn');
         $sortDirection = $request->query('sortDirection');
         $searchParam = $request->query('event');
@@ -215,12 +217,13 @@ class EventController extends Controller
         }
 
         $visitors = $visitorQuery->paginate(10);
-        return view('admin.visitor-event-game', compact('visitors', 'sortColumn', 'sortDirection', 'searchParam', 'events', 'eventTitle'));
+        return view('admin.visitor-event-game', compact('visitors', 'sortColumn', 'sortDirection', 'searchParam', 'events', 'eventTitle', 'visitorTotal'));
     }
 
     public function visitorgameWins(Request $request)
     {
         $visitorQuery = LogGameHistory::query();
+        $visitorTotal = LogGameHistory::where('complete_at', '!=', Null)->count() ?? 0;
         $sortColumn = $request->query('sortColumn');
         $sortDirection = $request->query('sortDirection');
         $searchParam = $request->query('event');
@@ -240,7 +243,7 @@ class EventController extends Controller
         }
 
         $visitors = $visitorQuery->paginate(10);
-        return view('admin.visitor-event-game-wins', compact('visitors', 'sortColumn', 'sortDirection', 'searchParam', 'events', 'eventTitle'));
+        return view('admin.visitor-event-game-wins', compact('visitors', 'sortColumn', 'sortDirection', 'searchParam', 'events', 'eventTitle', 'visitorTotal'));
     }
 
     public function visitorAttendance($id)

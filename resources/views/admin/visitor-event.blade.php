@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title')
   {{-- <div id="titleEvent"> --}}
-  Visitor Event {{ $eventTitle->name ?? 'All Events' }} ({{ $visitors->count() ?? 0 }})
+  Visitor Event {{ $eventTitle->name ?? 'All Events' }} ({{ $visitorTotal }})
   {{-- </div> --}}
 @endsection
 @section('content')

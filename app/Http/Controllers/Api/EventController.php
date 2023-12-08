@@ -66,7 +66,8 @@ class EventController extends Controller
                     'event_category' => $event->category,
                     'event_date' => $event->date,
                     'name' => $request->name,
-                    'telp' => $request->telp
+                    'telp' => $request->telp,
+                    'checkin_at' => now()
                 ]);
                 return response()->json($this->metaStoreLogEvent());
             }

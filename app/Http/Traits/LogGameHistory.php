@@ -36,7 +36,7 @@ trait LogGameHistory
         $name = $data['name'];
 
         $logGameHistory = ModelsLogGameHistory::where('telp', '=', $telp)
-            ->whereDate('play_date', '=', Carbon::today()->toDateString())->first();
+            ->whereDate('play_date', '=', now()->toDateString())->first();
         if ($logGameHistory) {
             return null;
         } else {
@@ -75,7 +75,7 @@ trait LogGameHistory
             ]);
             if ($createGame) {
 
-                $logGame = ModelsLogGameHistory::where('telp', '=', $telp)->whereDate('play_date', '=', Carbon::today()->toDateString())->first();
+                $logGame = ModelsLogGameHistory::where('telp', '=', $telp)->whereDate('play_date', '=', now()->toDateString())->first();
                 return [
                     'id' => $logGame->id,
                     'idGame' => $codeGame['id'],
