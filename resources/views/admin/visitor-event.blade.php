@@ -98,7 +98,7 @@
             </div>
           </div>
         </div>
-        {{ $visitors->appends(['sortDirection' => request()->sortDirection, 'sortColumn' => request()->sortColumn, 'q' => request()->q])->onEachSide(5)->links() }}
+        {{ $visitors->appends(['sortDirection' => request()->sortDirection, 'sortColumn' => request()->sortColumn, 'q' => request()->q, 'event' => request()->event])->onEachSide(5)->links() }}
       </div>
     </div>
   </section>
