@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin CMS PKTBEEDUFEST</title>
+  <title>Admin CMS PKTFEST Edu</title>
   <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }} " />
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -75,7 +75,7 @@
           </button>
           <li class="mb-2 font-semibold text-xl">
             <span>
-              <h1>PKTBEEDUFEST </h1>
+              <h1>PKTFEST Edu</h1>
             </span>
           </li>
           <template x-for="item in menus">

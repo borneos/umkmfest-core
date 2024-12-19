@@ -9,10 +9,10 @@
             <div class="hero-content py-12">
               <div class="max-w-md">
                 <h1 class='text-3xl text-center font-bold '>
-                  PKTBEEDUFEST
+                  PKTFEST Edu Session
                   {{-- <img class="inline-block w-36 mx-auto md:mx-0" src="https://res.cloudinary.com/domqavi1p/image/upload/v1690468533/keubitbit-long_hidyuv.svg" /> --}}
                 </h1>
-                <h1 class="text-2xl mt-8 font-bold">Admin CMS PKTBEEDUFEST</h1>
+                <h1 class="text-2xl mt-8 font-bold">Admin CMS PKTFEST Edu Session</h1>
                 <p class="py-2 mt-4">✓ <span class="font-semibold">Please login with your email id and password</span></p>
                 <p class="py-2">✓ <span class="font-semibold">If forget access please contact web administrator</span></p>
               </div>
