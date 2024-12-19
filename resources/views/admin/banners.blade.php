@@ -25,12 +25,12 @@
               </button>
             </div>
           </form>
-          <button class="btn btn-md btn-primary" onclick="modal_banner.showModal()">Add</button>
+          <button class="btn btn-md btn-primary" onclick="modal_banner.showModal()">Add Banner</button>
         </div>
         <div class="card bg-white rounded-lg">
           <div class="card-body p-0">
             <div class="overflow-x-auto">
-              <table class="table">
+              <table class="table table-xs">
                 <thead>
                   <tr>
                     <th width="3%">
@@ -50,11 +50,11 @@
                     <tr>
                       <td>{{ $banner->id }}</td>
                       <td>
-                        <div class="flex items-center space-x-3">
+                        <div class="flex items-center">
                           <div class="avatar">
-                            <div class="mask mask-squircle w-9 h-9">
+                            <div class="mask mask-squircle w-[2px] h-[2px]">
                               @if ($banner->image != '')
-                                <img src="{{ $banner->image }}" alt="{{ $banner->name }}">
+                                <!-- <img src="{{ $banner->image }}" alt="{{ $banner->name }}"> -->
                               @else
                                 <img src="https://placehold.co/100x100" alt="blank" />
                               @endif
