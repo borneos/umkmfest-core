@@ -53,6 +53,7 @@ class EventController extends Controller
 
     public function store_log_events(Request $request)
     {
+        $uuid = Str::uuid();
         $cekEvent = LogEventHistory::where('event_id', '=', $request->eventId)
             ->where('telp', '=', $request['telp'])
             ->first();
@@ -67,7 +68,7 @@ class EventController extends Controller
                     'event_date' => $event->date,
                     'name' => $request->name,
                     'telp' => $request->telp,
-                    'prefix' => Str::uuid(),
+                    'prefix' => $uuid,
                     'created_at' => now()
                 ]);
                 return response()->json($this->metaStoreLogEvent());
