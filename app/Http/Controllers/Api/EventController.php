@@ -9,7 +9,7 @@ use App\Models\Event as ModelsEvent;
 use App\Models\LogEventHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -59,7 +59,7 @@ class EventController extends Controller
             ->first();
 
         if (!$cekEvent) {
-            $uuid = Uuid::uuid4()->toString();
+            $uuid = Str::uuid();
             $event = ModelsEvent::where('id', '=', $request->eventId)->first();
             if ($event->count() != 0) {
                 LogEventHistory::create([
