@@ -38,4 +38,10 @@ class LogEventHistoryController extends Controller
             return response()->json(['meta' => $meta, 'data' => null]);
         }
     }
+    public function get_event_histories_id($id)
+    {
+        $meta = $this->metaEventHistoryId(['success' => true]);
+        $eventHistoriesId = $this->queryEventHistoryId($id);
+        return response()->json(['meta' => $meta, 'data' => $this->resultEventListId($eventHistoriesId)]);
+    }
 }

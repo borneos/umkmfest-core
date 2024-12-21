@@ -12,20 +12,20 @@ trait LogEventHistory
     public function queryEventHistoryList($data)
     {
         $telp = $data['telp'];
-        $sort = $data['sort'];
+        // $sort = $data['sort'];
         $category = $data['category'];
 
         if ($category == null) {
             $logEventHistory =
                 ModelsLogEventHistory::where('telp', '=', $telp)
-                ->orderBy('id', $sort)
+                // ->orderBy('id', $sort)
                 ->get();
             return $logEventHistory;
         } else {
             $logEventHistory =
                 ModelsLogEventHistory::where('telp', '=', $telp)
                 ->where('event_category', '=', $category)
-                ->orderBy('id', $sort)
+                // ->orderBy('id', $sort)
                 ->get();
             return $logEventHistory;
         }
@@ -38,12 +38,28 @@ trait LogEventHistory
                 'name' => $result->name,
                 'telp' => $result->telp,
                 'email' => $result->email,
-                'events' => [
-                    $this->queryEvent($result['event_id'])
-                ],
+                'events' => $this->queryEvent($result['event_id']),
                 'checkinAt' => $result->checkin_at,
                 'createdAt' => $result->created_at,
                 'updateAt' => $result->update_at
+            ];
+        }
+        return $results;
+    }
+
+    public function queryEventHistoryId($id)
+    {
+        return ModelsLogEventHistory::where('telp', '=', $id)
+            ->whereNotNull('checkin_at')
+            ->get();
+    }
+
+    public function resultEventListId($data)
+    {
+        foreach ($data as $result) {
+            $results[] = [
+                'id'        => $result->id,
+                'eventName' => $result->event_name
             ];
         }
         return $results;

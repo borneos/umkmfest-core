@@ -174,4 +174,14 @@ trait FormatMeta
             ],
         ];
     }
+    public function metaEventHistoryId($data)
+    {
+        return [
+            [
+                'status' => $data['success'] == false ? 'error' : 'success',
+                'statusCode' => $data['success'] == false ? 500 : 200,
+                'statusMessage' => $data['success'] == false ? 'Gagal mendapatkan data, server mengalami gangguan' : 'Berhasil medapatkan data event history'
+            ],
+        ];
+    }
 }
