@@ -60,7 +60,6 @@ class EventController extends Controller
         if (!$cekEvent) {
             $event = ModelsEvent::where('id', '=', $request->eventId)->first();
             if ($event->count() != 0) {
-                $uuid = Str::uuid();
                 LogEventHistory::create([
                     'event_id' => $request->eventId,
                     'event_name' => $event->name,
@@ -68,7 +67,7 @@ class EventController extends Controller
                     'event_date' => $event->date,
                     'name' => $request->name,
                     'telp' => $request->telp,
-                    'prefix' => $uuid,
+                    'prefix' => Str::uuid(),
                     'created_at' => now()
                 ]);
                 return response()->json($this->metaStoreLogEvent());

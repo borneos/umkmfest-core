@@ -84,7 +84,7 @@
                         {{ \Carbon\Carbon::parse($visitor->created_at)->format('d-M-Y H:i') }}
                       </td>
                       <td>
-                        {{ \Carbon\Carbon::parse($visitor->checkin_at)->format('d-M-Y H:i') }}
+                        {{ $visitor->checkin_at ? \Carbon\Carbon::parse($visitor->checkin_at)->format('d-M-Y H:i') : '-'}}
                       </td>
                       <td>
                         <form action="{{ route('admin.events.visitor.attendance', $visitor->id) }}">
