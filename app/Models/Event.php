@@ -23,6 +23,7 @@ class Event extends Model
         'date',
         'start_time',
         'end_time',
+        'prefix',
         'location',
         'location_link',
         'status'
