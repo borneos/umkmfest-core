@@ -47,7 +47,7 @@
                       <x-column-header dataRoute="admin.events" column-name="telp" :sort-column="$sortColumn" :sortDirection="$sortDirection">Telepon</x-column-header>
                     </th>
                     <th>
-                      <x-column-header dataRoute="admin.events" column-name="email" :sort-column="$sortColumn" :sortDirection="$sortDirection">Email</x-column-header>
+                      <x-column-header dataRoute="admin.events" column-name="created_at" :sort-column="$sortColumn" :sortDirection="$sortDirection">Registered At</x-column-header>
                     </th>
                     <th>
                       <x-column-header dataRoute="admin.events" column-name="checkin_at" :sort-column="$sortColumn" :sortDirection="$sortDirection">Check In</x-column-header>
@@ -81,7 +81,7 @@
                         {{ $visitor->telp }}
                       </td>
                       <td>
-                        {{ $visitor->email }}
+                        {{ $visitor->created_at }}
                       </td>
                       <td>
                         {{ $visitor->checkin_at }}

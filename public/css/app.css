@@ -2412,6 +2412,16 @@ html {
   border-bottom-right-radius: 0px;
   border-bottom-left-radius: 0px;
 }
+.table-xs :not(thead):not(tfoot) tr {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.table-xs :where(th, td) {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
 .fixed {
   position: fixed;
 }
@@ -2543,6 +2553,9 @@ html {
 .h-9 {
   height: 2.25rem;
 }
+.h-\[2px\] {
+  height: 2px;
+}
 .min-h-full {
   min-height: 100%;
 }
@@ -2578,6 +2591,9 @@ html {
 }
 .w-\[130px\] {
   width: 130px;
+}
+.w-\[2px\] {
+  width: 2px;
 }
 .w-auto {
   width: auto;
@@ -2738,6 +2754,9 @@ html {
 }
 .p-2 {
   padding: 0.5rem;
+}
+.p-3 {
+  padding: 0.75rem;
 }
 .p-4 {
   padding: 1rem;

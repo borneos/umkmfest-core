@@ -9,6 +9,7 @@ use App\Models\Event as ModelsEvent;
 use App\Models\LogEventHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -59,7 +60,7 @@ class EventController extends Controller
         if (!$cekEvent) {
             $event = ModelsEvent::where('id', '=', $request->eventId)->first();
             if ($event->count() != 0) {
-
+                $uuid = Str::uuid();
                 LogEventHistory::create([
                     'event_id' => $request->eventId,
                     'event_name' => $event->name,
@@ -67,7 +68,8 @@ class EventController extends Controller
                     'event_date' => $event->date,
                     'name' => $request->name,
                     'telp' => $request->telp,
-                    'checkin_at' => now()
+                    'prefix' => $uuid,
+                    'created_at' => now()
                 ]);
                 return response()->json($this->metaStoreLogEvent());
             }
