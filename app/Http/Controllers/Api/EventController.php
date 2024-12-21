@@ -53,12 +53,13 @@ class EventController extends Controller
 
     public function store_log_events(Request $request)
     {
-        $uuid = Str::uuid();
+        
         $cekEvent = LogEventHistory::where('event_id', '=', $request->eventId)
             ->where('telp', '=', $request['telp'])
             ->first();
 
         if (!$cekEvent) {
+            $uuid = Str::uuid();
             $event = ModelsEvent::where('id', '=', $request->eventId)->first();
             if ($event->count() != 0) {
                 LogEventHistory::create([
