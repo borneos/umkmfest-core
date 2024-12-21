@@ -17,6 +17,7 @@ class LogEventHistory extends Model
         'name',
         'telp',
         'email',
+        'prefix',
         'checkin_at',
         'attendance'
     ];
