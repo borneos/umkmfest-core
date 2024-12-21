@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,5 +47,9 @@ Route::group(['namespace' => 'Api'], function () {
         Route::get('/create', 'LogGameHistoryController@create_game_history');
         Route::post('/reedem', 'LogGameHistoryController@redeem_game');
         Route::put('/complete/{id}', 'LogGameHistoryController@complete_game');
+    });
+
+    Route::get('/test-uuid', function () {
+        return response()->json(['uuid' => Str::uuid()]);
     });
 });
