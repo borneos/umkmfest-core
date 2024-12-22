@@ -40,7 +40,7 @@ class EventController extends Controller
     {
         $event = ModelsEvent::where('id', '=', $id)->first();
         if ($event->count() != 0) {
-            return response()->json($this->resultEventDetail($events));
+            return response()->json($this->resultEventDetail($event));
         }
     }
 
