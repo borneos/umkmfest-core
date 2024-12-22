@@ -80,7 +80,7 @@ class EventController extends Controller
                     'prefix' => $uuid,
                     'created_at' => now()
                 ]);
-                return response()->json($this->metaStoreLogEvent($data));
+                return response()->json($this->$data);
             }
         } else {
             return response()->json([
