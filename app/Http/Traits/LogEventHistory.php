@@ -38,6 +38,7 @@ trait LogEventHistory
                 'name' => $result->name,
                 'telp' => $result->telp,
                 'email' => $result->email,
+                'prefix' => $result->prefix,
                 'events' => $this->queryEvent($result['event_id']),
                 'checkinAt' => $result->checkin_at,
                 'createdAt' => $result->created_at,
