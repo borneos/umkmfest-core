@@ -65,4 +65,10 @@ trait LogEventHistory
         }
         return $results;
     }
+
+    public function queryEventHistoryUUID($uuid)
+    {
+        return ModelsLogEventHistory::where('prefix', '=', $uuid)
+            ->get();
+    }
 }
