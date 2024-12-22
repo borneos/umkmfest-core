@@ -55,7 +55,7 @@ class EventController extends Controller
         if (!$events) {
             return response()->json(['meta' => $meta, 'data' => null]);
         } else {
-            return response()->json(['meta' => $meta, 'data' => $this->resultEventDetail($events)]);
+            return response()->json(['meta' => $meta, 'data' => $this->$events]);
         }
     }
 
