@@ -36,6 +36,14 @@ class EventController extends Controller
         }
     }
 
+    public function detail_event($id)
+    {
+        $event = ModelsEvent::where('id', '=', $id)->first();
+        if ($event->count() != 0) {
+            return response()->json($this->resultEventDetail($events));
+        }
+    }
+
     public function detail_events($slug)
     {
         $events = $this->queryDetailEvent(compact('slug'));
