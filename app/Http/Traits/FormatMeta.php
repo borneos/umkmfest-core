@@ -97,14 +97,15 @@ trait FormatMeta
         ];
     }
 
-    public function metaStoreLogEvent()
+    public function metaStoreLogEvent($data)
     {
         return [
             'status' => 'success',
             'statusCode' => 200,
             'data' => [
                 'status' => true,
-                'message' => 'Berhasil Mendaftar Event'
+                'message' => 'Berhasil Mendaftar Event',
+                'data' => $data ?? null
             ]
         ];
     }
