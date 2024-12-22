@@ -78,7 +78,7 @@ trait Event
 
     public function resultEventDetail($data)
     {
-        $results[] = [
+        $results = [
             'id' => $data->id,
             'name' => $data->name,
             'category' => $data->category,
