@@ -80,7 +80,7 @@ class EventController extends Controller
                     'prefix' => $uuid,
                     'created_at' => now()
                 ]);
-                return response()->json($this->$data);
+                return response()->json($data);
             }
         } else {
             return response()->json([
