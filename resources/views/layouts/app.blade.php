@@ -69,7 +69,7 @@
       </div>
       <div class="drawer-side min" x-data="{ menus: datasidebar, pathname: window.location.pathname.split('/') }">
         <label html-for="left-sidebar-drawer" class="drawer-overlay"></label>
-        <ul class="menu pt-2 w-80 min-h-screen bg-base-100 text-base p-4">
+        <ul class="menu pt-2 min-h-screen bg-base-100 text-base p-4" style="width: 210px;">
           <button class="btn btn-ghost bg-base-300  btn-circle z-50 top-0 right-0 mt-4 mr-2 absolute lg:hidden" onClick={(e)=>close(e))}>
             <span class="h-5 inline-block w-5">x</span>
           </button>
@@ -166,7 +166,7 @@
     {
       id: 8,
       name: "visitor",
-      label: "Visitor Event",
+      label: "Registered User",
       link: "/admin/visitor?sortDirection=desc&sortColumn=id",
       isLabel: false,
     },

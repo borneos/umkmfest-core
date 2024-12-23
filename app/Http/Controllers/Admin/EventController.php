@@ -173,7 +173,6 @@ class EventController extends Controller
     public function visitor(Request $request)
     {
         $visitorQuery = LogEventHistory::query();
-        $visitorTotal = LogEventHistory::all()->count() ?? 0;
         $sortColumn = $request->query('sortColumn');
         $sortDirection = $request->query('sortDirection');
         $searchParam = $request->query('event');
@@ -189,6 +188,9 @@ class EventController extends Controller
                 $query
                     ->orWhere('event_id', 'like', "%$searchParam%");
             });
+            $visitorTotal = $visitorQuery->count() ?? 0;
+        }else {
+            $visitorTotal = LogEventHistory::all()->count() ?? 0;
         }
 
         $visitors = $visitorQuery->paginate(10);
