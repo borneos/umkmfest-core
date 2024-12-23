@@ -175,22 +175,45 @@ class EventController extends Controller
         $visitorQuery = LogEventHistory::query();
         $sortColumn = $request->query('sortColumn');
         $sortDirection = $request->query('sortDirection');
-        $searchParam = $request->query('event');
+        $eventId = $request->query('event');
+        $searchParam = $request->query('q');
         $events = Event::all();
-        $eventTitle = Event::where('id', '=', $searchParam)->first();
+        $eventTitle = Event::where('id', '=', $eventId)->first();
 
         if ($sortColumn && $sortDirection) {
             $visitorQuery->orderBy($sortColumn, $sortDirection ?: 'asc');
         }
 
+        if ($searchParam && $eventId) {
+            $visitorQuery = $visitorQuery->where(function ($query) use ($searchParam, $eventId) {
+                $query
+                    ->Where('event_id', '=', $eventId)
+                    ->Where('name', 'like', "%$searchParam%");
+            });
+            $visitorTotal = $visitorQuery->count() ?? 0;
+        } elseif (!$searchParam) {
+            if ($eventId) {
+                $visitorQuery = $visitorQuery->where(function ($query) use ($searchParam, $eventId) {
+                    $query
+                        ->Where('event_id', '=', $eventId)
+                        ->Where('name', 'like', "%$searchParam%");
+                });
+                $visitorTotal = $visitorQuery->count() ?? 0;
+            } else {
+                // $visitorQuery = $visitorQuery->where(function ($query) use ($searchParam, $eventId) {
+                //     $query
+                //         ->orWhere('telp', 'like', '%$searchParah%');
+                // });
+                $visitorTotal = LogEventHistory::all()->count() ?? 0;
+            }
+        }
+
         if ($searchParam) {
             $visitorQuery = $visitorQuery->where(function ($query) use ($searchParam) {
                 $query
-                    ->orWhere('event_id', 'like', "%$searchParam%");
+                    ->Where('name', 'like', "%$searchParam%");
             });
             $visitorTotal = $visitorQuery->count() ?? 0;
-        }else {
-            $visitorTotal = LogEventHistory::all()->count() ?? 0;
         }
 
         $visitors = $visitorQuery->paginate(10);

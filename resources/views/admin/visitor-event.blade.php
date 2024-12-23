@@ -17,20 +17,29 @@
       <div class="my-2">
         <h1>Total data: <b>{{ $eventTitle->name ?? 'All Events' }}</b> ({{ $visitorTotal }})</h1>
       </div>
-      <div class="flex justify-between items-center mb-4">
-        <form id="search" action="{{ route('admin.events.visitor', request()->query()) }}">
-          <div class="flex my-1">
+      <form id="search" action="{{ route('admin.events.visitor', request()->query()) }}">
+        <div class="flex justify items-center mb-4">
+          <div class="flex my-1 p-2">
             <input type="hidden" name="sortColumn" value="{{ $sortColumn }}" />
             <input type="hidden" name="sortDirection" value="{{ $sortDirection }}" />
-            <select name="event" id="event" class="select border border-gray-200 :outline-none" style="width: 250px;">
+            <select name="event" id="event" class="select border border-gray-200 :outline-none rounded-lg" style="width: 250px;">
               <option disabled selected>Pilih Nama Event</option>
               @foreach ($events as $event)
                 <option value="{{ $event->id }}" data-doj="{{ $event->name }}" {{ $event->id == request()->get('event') ? 'selected' : '' }}>{{ $event->name }}</option>
               @endforeach
             </select>
           </div>
-        </form>
-      </div>
+          <div class="flex my-1">
+            <input type="text" name="q" placeholder="Search" class="py-2 px-2 text-md border border-gray-200 rounded-l rounded-r-none focus:outline-none" value="{{ $searchParam }}" />
+            <button type="submit" class="btn btn-primary rounded-l-none">
+              <x-bi-search class="h-6 w-6" />
+            </button>
+          </div>
+          <div class="flex my-1 p-2">
+            <button type="button" onclick="window.location='/admin/visitor?sortDirection=desc&sortColumn=id'" class="btn btn-secondary">Clear</button>
+          </div>
+        </div>
+      </form>
       <div class="card bg-white rounded-lg">
         <div class="card-body p-0">
           <div class="overflow-x-auto">
@@ -88,7 +97,7 @@
                       {{ \Carbon\Carbon::parse($visitor->created_at)->format('d-M-Y H:i') }}
                     </td>
                     <td>
-                      {{ $visitor->checkin_at ? \Carbon\Carbon::parse($visitor->checkin_at)->format('d-M-Y H:i') : '-'}}
+                      {{ $visitor->checkin_at ? \Carbon\Carbon::parse($visitor->checkin_at)->format('d-M-Y H:i') : '-' }}
                     </td>
                     <td>
                       <form action="{{ route('admin.events.visitor.attendance', $visitor->id) }}">
