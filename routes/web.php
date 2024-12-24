@@ -24,9 +24,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::middleware('auth')->group(function () {
         //Dashboard
-        Route::get('/', function () {
-            return view('home');
-        });
+        Route::get('/', 'DashboardController@index')->name('dashboard');
         //Banners
         Route::get('/admin/banners', 'BannerController@index')->name('banners');
         Route::post('/admin/banners/store', 'BannerController@store')->name('banners.store');
