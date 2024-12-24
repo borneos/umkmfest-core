@@ -27,5 +27,9 @@
   </section>
 @endsection
 @section('js')
-  
+  <script>
+    setTimeout(() => {
+      window.location.reload();
+    }, 5000)
+  </script>
 @endsection
