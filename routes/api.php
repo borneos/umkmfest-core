@@ -50,4 +50,7 @@ Route::group(['namespace' => 'Api'], function () {
         Route::post('/reedem', 'LogGameHistoryController@redeem_game');
         Route::put('/complete/{id}', 'LogGameHistoryController@complete_game');
     });
+    Route::group(['prefix' => 'coupon'], function () {
+        Route::get('/{uuid}', 'CouponController@get_coupon_uuid');
+    });
 });
