@@ -28,28 +28,42 @@
           <button class="btn btn-md btn-primary" onclick="modal_coupon.showModal()">Add</button>
         </div>
 
-        <div class="grid grid-cols-3">
+        <div class="grid grid-cols-3 bg-white">
           @foreach ($coupons as $coupon)
-          <div class="card bg-[url('https://res.cloudinary.com/borneos-co/image/upload/v1735054774/pktfest/r64wl2qqqq7qghcr5yog.webp')] bg-cover bg-center text-primary-content w-96 h-[175px] my-2 border-dashed border-blue-700 border">
-            <div class="card-body px-2 gap-0">
-              <div class="flex justify-between">
-                <div class="pr-4">
-                  <h2 class="card-title text-orange-500 mt-4 mb-0 pr-2 tracking-wide">Voucher Senilai</h2>
-                  <p class="text-black text-3xl font-mono font-semibold">{{number_format($coupon->nominal, 0, '.', '.');}}</p>
-                  <p class="text-gray-600 text-[8px] font-mono">{{$coupon->code}}</p>
-                </div>
-                <div class="pt-4">
-                  {!! QrCode::size(85)->generate($coupon->code) !!}
+          <div class="flex justify-center items-center border border-gray-800 py-3">
+            <div class="card bg-[url('https://res.cloudinary.com/borneos-co/image/upload/v1735054774/pktfest/r64wl2qqqq7qghcr5yog.webp')] bg-cover bg-center text-primary-content w-96 h-[175px] border-dashed border-blue-700 border">
+              <div class="card-body px-2 gap-0">
+                <div class="flex justify-between">
+                  <div>
+                    <h2 class="card-title text-orange-500 mt-4 mb-0 tracking-wide font-sans">Voucher Senilai</h2>
+                    <div class="flex gap-1">
+                      <p class="text-black text-3xl font-mono font-semibold tracking-normal">{{number_format($coupon->nominal, 0, '.', '.');}}</p>
+                      <!-- <div class="flex items-center gap-1">
+                        @if(!$coupon->complete_at)
+                          <span class="circle-dot dot-green"></span>
+                          <span class="text-xs text-green-600">Available</span>
+                        @else
+                          <span class="circle-dot dot-red"></span>
+                          <span class="text-xs text-red-700">Used</span>
+                        @endif
+                      </div> -->
+                    </div>
+                    <div class="bg-white p-1 rounded-xl">
+                      <p class="text-gray-600 text-[8px] font-mono tracking-wide">{{$coupon->code}}</p>
+                    </div>
+                  </div>
+                  <div class="pt-4">
+                    {!! QrCode::size(88)->generate($coupon->code) !!}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           @endforeach
         </div>
-
         
         <div class="py-4">
-          {{ $coupons->appends(['sortDirection' => request()->sortDirection, 'sortColumn' => request()->sortColumn, 'q' => request()->q])->onEachSide(10)->links() }}
+          {{ $coupons->appends(['sortDirection' => request()->sortDirection, 'sortColumn' => request()->sortColumn, 'q' => request()->q])->onEachSide(9)->links() }}
         </div>
       </div>
     </div>

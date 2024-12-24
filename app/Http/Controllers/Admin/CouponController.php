@@ -31,7 +31,7 @@ class CouponController extends Controller
       });
     }
 
-    $coupons = $couponQuery->paginate(12);
+    $coupons = $couponQuery->paginate(9);
     return view('admin.coupons', compact('coupons', 'sortColumn', 'sortDirection', 'searchParam'));
   }
 
