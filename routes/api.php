@@ -52,5 +52,6 @@ Route::group(['namespace' => 'Api'], function () {
     });
     Route::group(['prefix' => 'coupon'], function () {
         Route::get('/{uuid}', 'CouponController@get_coupon_uuid');
+        Route::put('/complete/{uuid}', 'CouponController@complete_coupon');
     });
 });
