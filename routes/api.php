@@ -39,7 +39,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::group(['prefix' => 'log-event-histories'], function () {
         Route::get('/', 'LogEventHistoryController@get_event_histories');
         Route::get('/{uuid}', 'LogEventHistoryController@get_event_histories_uuid');
-        // Route::get('/{id}', 'LogEventHistoryController@get_event_histories_id');
+        Route::put('checkin/{uuid}', 'LogEventHistoryController@checkin_event_histories_uuid');
     });
     Route::group(['prefix' => 'game-histories'], function () {
         Route::get('/', 'LogGameHistoryController@get_game_histories');

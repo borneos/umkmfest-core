@@ -36,7 +36,7 @@
             </button>
           </div>
           <div class="flex my-1 p-2">
-            <button type="button" onclick="window.location='/admin/visitor?sortDirection=desc&sortColumn=id'" class="btn btn-secondary">Clear</button>
+            <button type="button" onclick="window.location='/admin/visitor?sortDirection=desc&sortColumn=id'" class="btn btn-ghost">Clear</button>
           </div>
         </div>
       </form>
