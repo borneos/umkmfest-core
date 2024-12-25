@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.circle-dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-green {
+  background-color: rgb(0, 255, 0);
+}
+
+.dot-red {
+  background-color: red;
+}

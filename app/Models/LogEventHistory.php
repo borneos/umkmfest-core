@@ -21,4 +21,9 @@ class LogEventHistory extends Model
         'checkin_at',
         'attendance'
     ];
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class, 'event_id');
+    }
 }

@@ -24,9 +24,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::middleware('auth')->group(function () {
         //Dashboard
-        Route::get('/', function () {
-            return view('home');
-        });
+        Route::get('/', 'DashboardController@index')->name('dashboard');
         //Banners
         Route::get('/admin/banners', 'BannerController@index')->name('banners');
         Route::post('/admin/banners/store', 'BannerController@store')->name('banners.store');
@@ -67,5 +65,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('/admin/games/missions/edit/{id}', 'MissionController@edit')->name('missions.edit');
         Route::post('/admin/games/missions/update', 'MissionController@update')->name('missions.update');
         Route::delete('/admin/games/missions/delete/{id}', 'MissionController@delete')->name('missions.delete');
+        // Coupons
+        Route::get('/admin/coupons', 'CouponController@index')->name('coupons');
+        Route::post('/admin/coupons/store', 'CouponController@store')->name('coupons.store');
+        Route::delete('/admin/coupons/delete/{id}', 'CouponController@delete')->name('coupons.delete');
     });
 });

@@ -166,21 +166,27 @@
     {
       id: 8,
       name: "visitor",
-      label: "Registered User",
+      label: "Management Registered User",
       link: "/admin/visitor?sortDirection=desc&sortColumn=id",
       isLabel: false,
-    },
-    {
+    },{
       id: 9,
-      name: "visitorgame",
-      label: "Visitor Games",
-      link: "/admin/visitorgame?sortDirection=desc&sortColumn=id",
+      name: "coupon",
+      label: "Management Coupons",
+      link: "/admin/coupons",
       isLabel: false,
     },
     {
       id: 10,
+      name: "visitorgame",
+      label: "Management Visitor Games",
+      link: "/admin/visitorgame?sortDirection=desc&sortColumn=id",
+      isLabel: false,
+    },
+    {
+      id: 11,
       name: "visitorgamewins",
-      label: "Visitor Game Wins",
+      label: "Management Visitor Game Wins",
       link: "/admin/visitorgamewins?sortDirection=desc&sortColumn=id",
       isLabel: false,
     }
