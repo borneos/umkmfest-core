@@ -13,16 +13,17 @@
 
   <section>
     <div class="grid md:grid-cols-3 grid-cols-1 gap-4">
-        @foreach($data as $item)
-          <div class="card bg-base-100 shadow-xl">
-            <div class="card-body content-between">
-              <h2 class="card-title font-normal text-xl">{{ $item->event->name ?? 'Unknown Category' }}</h2>
-            </div>
-            <div class="card-footer flex p-3 pr-5 justify-end items-end">
-              <span class="font-bold text-[3em]">{{ $item->total }}</span>
-            </div>
+      @foreach ($results as $item)
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body content-between">
+            <h2 class="card-title font-normal text-xl">{{ $item->event->name ?? 'Unknown Category' }}</h2>
           </div>
-        @endforeach
+          <div class="card-footer flex p-3 pr-5 justify-between items-center">
+            <span class="font-bold text-xl">Peserta Hadir : {{ $item->totalPesertaHadir }}</span>
+            <span class="font-bold text-[3em]">{{ $item->totalPeserta }}</span>
+          </div>
+        </div>
+      @endforeach
     </div>
   </section>
 @endsection
