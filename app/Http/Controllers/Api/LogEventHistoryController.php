@@ -63,7 +63,7 @@ class LogEventHistoryController extends Controller
         $dateNow = $now->format('Y-m-d');
         $timeNow = $now->format('H:i');
         $eventStartTime = Carbon::parse($event->start_time);
-        $eventScanTime = $eventStartTime->subHour(-5)->format('H:i');
+        $eventScanTime = $eventStartTime->subHour(9)->format('H:i');
 
         if (is_null($logEvent->checkin_at)) {
             if ($dateNow == $event->date) {
